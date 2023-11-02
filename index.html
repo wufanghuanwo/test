@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBdtC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head> 
+<meta charset=UTF-8 ><!-- 编码类型 -->
+<meta http-equiv= cache-control content= Public ><!-- 允许缓存 -->
+<meta name= viewport  content= width=device-width,user-scalable=0 ><!-- 禁止缩放 -->
+<meta name= format-detection  content= telephone=no ><!-- 禁止触发电话 -->
+<meta http-equiv='Access-Control-Allow-Origin' content='*'><!-- 允许跨域访问 -->
+<meta name='nightmode' content='disable'><!-- 禁用夜间模式 -->
+<meta name='theme-color' content='#666'>
+
+<style type='text/css'>
+html,body,h3,h1,a,input{margin:0;padding:0;box-sizing: border-box;}
+html,body{background-color: #111;height:380px;width: 100%;overflow:hidden}
+body {text-align: center;color: #262626;position: relative;}
+.lg{width:200px;margin:0 auto 20px;}
+a {text-align: center;text-decoration: none;color: #eea;}
+.a,.b{margin: 20px auto 0;}
+.b{display:none}
+#word{height:20px; width: 150px;color: #eea;background-color: #000;}
+#bn{height:20px; width: 35px;background-color: #000;color: #eea;}
+h1{display:inline-block;width:200px;}
+h3{display:inline-block;width:45px;background-color: #000; margin:0 3px}
+#环境{background-color: #000;position:absolute;top:0px;right:0px;font-size:12px}
+.main{position:absolute;width:100%;max-width: 600px;top:0;bottom:0;left:0;right:0;margin:100px auto 0;}
+
+/*大屏样式*/
+.main{margin-top:calc(55%);max-width: 600px;}
+#word{height:calc(40px);  width:calc(65%);}
+#bn{height:calc(40px); width:calc(15%);}
+html,body{height:calc(100%)}
+
+/*电脑样式*/
+@media (min-width:400px) and (min-height:500px) {
+.main{margin-top:14%}
+}
+
+/*小屏样式*/
+@media (max-width:360px) and (max-height:580px) {
+.main{margin-top:calc(35%);}
+}
+
+/*迷你样式*/
+@media (max-width:320px) and (max-height:480px) {
+.main{margin-top:80px;}
+}
+
+</style> 
+</head>
+<base target = _blank >
+<body>
+<span id = 环境 ></span>
+<title>极简主页</title>
+
+
+<div class='main'>
+<div class='lg'>
+<a href='主页.html'><h1>极简主页<h1/></a>
+</div>
+
+<form action="http://m.sm.cn/s">
+<input  type="text" name="q" id = "word" >
+<input id = "bn" type="submit" value="搜索">
+</form>
+
+
+<div id = 'x' class ='b'>
+<a href='x:history'><h3>历史</h3></a>
+<a href='x:sc'><h3>脚本</h3></a>
+<a href='x:home'><h3>主页</h3></a>
+<a href='x:adb'><h3>广告</h3></a>
+<a href='x:ua'><h3>标识</h3></a>
+</div>
+
+<div id = 'hc' class ='b'>
+<a href='meta:history'><h3>历史</h3></a>
+<a href='activity:webapp'><h3>脚本</h3></a>
+<a href='meta:home'><h3>主页</h3></a>
+<a href='activity:adb'><h3>广告</h3></a>
+<a href='activity:base'><h3>基础</h3></a>
+</div>
+
+<div id = 'tg' class ='b'>
+<a href='m:history'><h3>历史</h3></a>
+<a href='m:extend-list'><h3>扩展</h3></a>
+<a href='m:home'><h3>主页</h3></a>
+<a href='https://7cc7cc.com/search--1.htm'><h3>论坛</h3></a>
+<a href='https://www.nr19.cn/tgllq'><h3>官网</h3></a>
+</div>
+
+<div class ='a'>
+<a href='http://hot.meibp.com'><h3>热搜</h3></a> 
+<a href='http://www.crntt.com/crn-webapp/touch/'><h3>
+中评</h3></a>
+<a href='http://tieba.baidu.com/mo/q---:FG=1-sz@320_,-1-3-0--2--wapp_/m?tn=bdIndex'><h3>
+贴吧</h3></a>
+<a href='http://m.sohu.com'><h3>
+新闻</h3></a>
+<a href='https://m.tianqi.com/'><h3>天气</h3></a>
+</div>
+
+<div class ='a'>
+<a href='朗读.html'><h3>
+朗读</h3></a>
+<a href='http://wap.jjwxc.net'><h3>
+小说</h3></a>
+<a href='http://www.netbian.com/shouji/meinv/'><h3>
+图片</h3></a>
+<a href='http://m.zd9999.com/'><h3>
+影视</h3></a>
+<a href='http://m.59178.com/'><h3>
+导航</h3></a>
+
+</div>
+<div class ='a'>
+<a href='搜索.html'><h3>搜索</h3></a>
+<a href='播放.html'><h3>播放</h3></a>
+<a href='代码.html'><h3>代码</h3></a>
+<a href='强帖.html'><h3>强帖</h3></a>
+<a href='测试.html'><h3>测试</h3></a>
+</div>
+</div>
+
+</body>
+<script>
+    function α(id) {
+        return document.getElementById(id)
+    };
+
+    function β(css, dom) {
+        dom = dom || document;
+        return dom.querySelector(css)
+    };
+
+    function γ(css, dom) {
+        dom = dom || document;
+        return dom.querySelectorAll(css)
+    };
+
+    function δ(tag, dom) {
+        dom = dom || document;
+        return dom.getElementsByTagName(tag)
+    };
+
+    function λ(cls, dom) {
+        dom = dom || document;
+        return dom.getElementsByClassName(cls)
+    };
+
+    var x = α('x');
+    window.onload = function() {
+        检测浏览器()
+        检测平台()
+    }
+
+    function 检测平台() {
+        try {
+            var url = window.location,
+                hj = (/file:/).test(url) ? '本地' : (/icp\./).test(url) ? '外网' : '内网';
+            α('环境').innerHTML = "<a href= 'http://192.168.1.4:8080/书签/简页.html' >" + hj + " </a>";
+        } catch (e) {}
+    }
+
+    function 检测浏览器() {
+        try {
+            var id = window.webmx ? 'tg' : window.mtt ? 'qq' : window.mbrowser ? 'x' : window.bz ? 'b' : window.meta ? 'hc' : window._obj ? 'milk' : 'com';
+            α(id).style.display = 'block'
+        } catch (e) {}
+    }
+</script>
+</html>
+
