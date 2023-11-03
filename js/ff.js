@@ -1300,6 +1300,7 @@
 				'UGirls/' + 随机数(1, 427, 3)
 				][fh];
 		url = fh?'https://img.lesmao.vip/k/h285/H/' + url + '.jpg':url;
+		url = ff.st.hj == '本地' ? url : 'http://img.netbian.com/file/2023/0927/small000504e9YLK1695744304.jpg' ;
 		return url;
 	}
 	
