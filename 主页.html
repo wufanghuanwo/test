@@ -1,0 +1,1139 @@
+<!DOCTYPE html PUBdtC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta charset=UTF-8 ><!-- 编码类型 -->
+<meta http-equiv= cache-control content= Public ><!-- 允许缓存 -->
+<meta name= viewport  content= width=device-width,user-scalable=0 ><!-- 禁止缩放 -->
+<meta name= format-detection  content= telephone=no ><!-- 禁止触发电话 -->
+<meta http-equiv='Access-Control-Allow-Origin' content='*'><!-- 允许跨域访问 -->
+<meta name='nightmode' content='disable'><!-- 禁用夜间模式 -->
+<meta name='theme-color' content='#666'>
+<title id='title'>主页</title>
+
+<style>
+:root {--bg: '';--bimg: '';--limg: '';--mtop: '';}
+#弹框,html,#页面,#环境,#book p,#addbook-from,.addbook-input,.shortcut,#search-from,#search-row,#set-from,#addbook-from input,#页面 button,#set-from ul,#suggestion{background-color:var(--bg) !important;}
+#页面{background-image:var(--bimg) !important;}
+#logo{background-image:var(--limg) !important;}
+.swal-title,#页面,#页面 button,#页面 a,#页面 li,#页面 ul,#页面 p,#页面 select,#页面 input,#页面 textarea{color:#111 !important}
+#页面,#logo{background-repeat: no-repeat !important;background-position: center !important;background-size:100% 100% !important;}
+*{-webkit-filter:none !important;}
+#app,.main,#edit,#book,#logo,#book aa,#book ul,#页面 li,#页面 a,#addbook-from aa,#search-from aa,#set-from aa,#set-from p,#页面 select,#提示 p{background-color:transparent !important;}
+aa,bb,cc{display:block}
+#页面 button{border:1px solid gray  !important;}
+/*重写select样式*/
+select{ -moz-appearance:none; -webkit-appearance:none;appearance:none;background: url('img/arrow.png') no-repeat scroll right center transparent;padding-right: 15px; padding-left:5px;border-radius: 0;}
+}
+</style>
+
+<style>
+/* VIA 仿夸克浏览器
+ * name	 via-quark-homepage
+ * author   BigLop
+ * version  1.1
+ */
+*{margin:0;padding:0;outline:0;user-select:none;-webkit-tap-highlight-color:transparent;}
+*,:after,:before{-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{height:100%;width:100%;}
+li,ul{overflow:hidden;list-style:none;text-overflow:ellipsis;white-space:nowrap;}
+a{color:#000;text-decoration:none;}
+body{font-family:Arial,Roboto,'Droid Sans';background-size:100% 100%;}
+/* 主页 */
+#logo{margin:0 auto;width:192px;height:108px;}
+#edit{margin:22px 30px 0 30px;height:45px;border:1px solid #bbb !important;border-radius:99px;}
+#book{margin:3% 20px 0 20px;text-align:center;}
+#book li{float:left;margin:2px 0;width:20%;}
+#book p{color:black !important;font-size:12px;width:40px;margin:0 auto;}
+.imgbook{margin:0 auto 8% auto;width:40px;height:40px;background-position:center;background-size:41px;background-repeat:no-repeat;border-radius: 15px;opacity:0.75;}
+.delbook{position:absolute;margin-top:-10px;margin-left:20px;width:30px;height:30px;background:url(img/delete.png) no-repeat center;background-size:19px;animation:scale .2s;}
+
+
+/* 添加书签 */
+.addbook-title{overflow:hidden;height:50px;line-height:50px;font-size:20px}
+.addbook-input{padding:12px 0;width:100%;border:0;border-bottom:1px solid gray;}
+.addbook-input:hover{border-bottom:1px solid gray;}
+#addbook-upload{height: 44px;line-height: 44px;text-align:center;margin:5px 0;}
+#addbook-upload>img{margin:4px;width:36px;float: left;}
+#addbook-upload>aa{width: 80%;width: calc(100% - 50px);text-overflow: ellipsis;text-align: right;}
+#addbook-pick{display:none}
+.addbook-btn{padding:10px 0;text-align:right;border-top:1px solid gray;}
+.addbook-btn a{padding:8px 15px;color:#3399CC;line-height:36px;}
+.addbook-btn a:active,#addbook-upload:active{background:#eee;}
+/* 搜索页面 */
+#suggestion>li{padding:10px 20px 10px 50px;background:url(img/su.png) no-repeat center;background-size:15px;background-position-x:20px;animation:down2 .3s;}
+#suggestion>li:active{background-color:#eee;}
+#input-bb{background-color:#aec !important;border-top:1px solid #888;border-bottom:1px solid #888;display:none;animation:down2 .1s;padding:8px 10px;}
+.search-option{float: left;}
+.search-select{font-size:12px;height:24px;}
+#search-input{padding:0 5px;line-height:24px;background-color:#aec !important;width: 100%;border:none !important;font-size:14px;}
+.back{float:right;width:30px;height:24px;background:url(img/delete.png) no-repeat center;background-size:17px;}
+.close{float:right;height:24px;padding:0 10px;font-size:12px;}
+.enter{float:right;height:24px;padding:0 10px;margin-right:2px;font-size:12px;}
+.shortcut{padding:0 10px;display:none;animation:fadeIn .1s;font-size:16px;}
+.shortcut1,.shortcut2{white-space:nowrap;margin:10px 0;overflow:auto;}
+.shortcut li{margin:2.5px 5px 2.5px;text-align:center;display:inline}
+
+/* 设置页面 */
+.set-option-from{overflow:auto;height:90%;height:calc(100% - 80px);}
+.set-logo{padding:8px 20px 8px 20px;border-bottom:1px solid gray;color:#555;font-weight:600;font-size:20px;}
+.set-btn{height:24px;float:right;width:70px;margin:0 0 0 2px;font-size:13px;}
+.set-option{padding:7px 20px;}
+.set-option:active{background:#eee}
+.set-title{float:left;}
+.set-description{margin-top:25px;color:#666;font-size:13px;}
+.set-select{font-size:13px;height:24px;min-width:70px;float:right;margin-top: 11px;padding-left:2px;}
+#set-upload{display:none;}
+/* 横屏自适应 */
+/* 小提示 */
+.tips{opacity:0.75;
+margin:15px auto;
+max-width: 270px;
+height:40px;
+background-color:#e9c !important;
+animation: down2 .3s;
+transform:translateY(0);
+pointer-events:none;/*穿透*/
+z-index: 2;
+}
+.tips i{
+	background-color:#13CE66 !important;
+	width: 40px;
+	height: 40px;
+	position: absolute;
+}
+.tips p{
+	margin-left: 50px;
+	font-size: 12px;
+	line-height:40px;
+}
+/* 动画 */
+@keyframes fadeIn{0%{opacity:0;}
+100%{opacity:1;}
+}
+@keyframes fadeOut{0%{opacity:1;}
+100%{opacity:0;}
+}
+@keyframes down{0%{opacity:1;transform:translateY(0);}
+100%{opacity:0;transform:translateY(40px);}
+}
+@keyframes down2{0%{opacity:0;transform:translateY(-20px);}
+100%{opacity:1;transform:translateY(0);}
+}
+@keyframes up{0%{opacity:0;transform:translateY(40px);}
+100%{opacity:1;transform:translateY(0);}
+}
+@keyframes up2{0%{opacity:1;transform:translateY(0);}
+100%{opacity:0;transform:translateY(-40px);}
+}
+@keyframes scale{0%{transform:scale(0);}
+100%{transform:scale(1);}
+}
+@keyframes scale2{0%{transform:scale(1);}
+100%{transform:scale(0);}
+}
+#logo:hover,.close:hover,a:hover,li:hover,select:hover,button:hover{cursor:pointer;}
+.close:active,li:active,a:active,button:active{background:#733 !important;}
+
+/* CSS3模拟IOS开关 */
+.ios-checkbox{
+	float:right;
+	padding:14px 2px;
+}
+.emulate-ios-button {
+	display: block;
+	width: 2rem;
+	height: 1rem;
+	background: #ccc !important;
+	border-radius: 5rem;
+	cursor: pointer;
+	position: relative;
+	-webkit-transition: all .3s ease;
+	transition: all .3s ease;
+}
+.emulate-ios-button:after {
+	content: '';
+	display: block;
+	width: .9rem;
+	height: .9rem;
+	border-radius: 100%;
+	background: #fff !important;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+	position: relative;
+	left: .05rem;
+	top: .05rem;
+	-webkit-transform:translateZ(0);	
+	transform:translateZ(0);
+	-webkit-transition: all .3s ease;  
+	transition: all .3s ease;
+}
+.emulate-ios-button:active:after {
+	width: 1.1rem;
+}
+.raw-checkbox{
+ display:none;
+	height:2rem;
+	width:2rem;
+}
+.raw-checkbox:checked+label {
+	background: #34bf49 !important;
+}
+.raw-checkbox:checked+label:after {
+	left: 1.05rem;
+}
+.raw-checkbox:checked+label:active:after {
+	left: .5rem;
+}
+.raw-checkbox:disabled+label {
+	background: #d5d5d5 !important;
+	pointer-events: none;
+}
+.raw-checkbox:disabled+label:after {
+	background: #bcbdbc !important;
+}
+/* 布局定位 */
+.set-bottom{position:absolute;bottom:0;padding-bottom:8px;padding-left:30%;padding-left:calc(50% - 70px);}
+#app{position: relative;max-width: 600px;margin:0 auto;height:100%;width: 100%;overflow:hidden;}
+.main{position:absolute;width:100%;max-width: 600px;top:0;bottom:0;left:0;right:0;margin:0 auto;margin-top: 35%}
+.addbook-shade,#search-from,#set-from{opacity:0.85;display:none;height:100%;max-width: 600px;animation:fadeIn .2s;}
+#addbook-from{width: 100%;bottom: 0;position: absolute;max-width: 600px;animation:up .2s;padding:0 20px}
+#search-row{position:absolute;bottom:0;max-width: 600px;width: 100%;}
+#suggestion{
+	max-height: calc(100% - 145px);
+	width: 100%;
+	max-width: 600px;
+	display:block;
+	position:absolute;
+	overflow:auto;
+}
+#环境{position:absolute;top:0px;right:0px;font-size:12px}
+
+/*电脑样式*/
+@media (min-width:400px) and (min-height:500px) {
+.tips{margin:20px auto;max-width: 470px;}
+.swal-button{min-width:100px;}
+.set-bottom{display:none;}
+.main{margin-top:20%;}
+}
+
+/*小屏样式*/
+@media (max-width:360px) and (max-height:580px) {
+.imgbook{height:28px;border-radius: 8px;}
+#edit{height:38px}
+#book p{padding-top:2px }
+.swal-title,.swal-title a{font-size: 22px}
+.swal-button{min-width:58px;padding:3px;margin:-1px 0px}
+.swal-text{max-height:200px}
+.set-option-from{height:90%;height:calc(100% - 70px);}
+.set-logo{padding:4px 20px 4px 20px;font-size:16px;}
+.set-btn{height:20px;font-size:11px;}
+.set-option{padding:4px 20px;}
+.set-description{margin-top:25px;font-size:11px;}
+.set-select{font-size:11px;height:20px;margin-top: 11px;}
+.set-title{font-size:15px;}
+.main{margin-top:15%;}
+}
+
+/*迷你样式*/
+@media (max-width:320px) and (max-height:480px) {
+.main{margin-top:-10px;}
+.swal-text{max-height:180px;width:200px}
+}
+
+</style>
+
+
+
+
+</head>
+<body id='页面'>
+<aa id='app'>
+<span id = 环境 ></span>
+<aa class='main'><aa id='logo'></aa>
+<aa id='edit'>
+</aa>
+<ul id='book'></ul></aa>
+<aa id='search-from'>
+	<ul id='suggestion'></ul>
+	<aa id='search-row'>
+		<bb id='input-bb'>
+			<aa class='search-option' ><select id = 搜索引擎 class='search-select'></select></aa>
+<button class='close'>取消</button>
+<button class='enter'>前往</button>
+<aa class='back'></aa>
+<aa style='overflow:hidden;' >
+<input id='search-input' placeholder='搜索或输入网址'>
+</aa>
+		</bb>
+		<aa class='shortcut'>
+			<aa class='shortcut1'><li>javascript:</li><li>file://</li><li>http://</li><li>https://</li><li>ftp://</li><li>www.</li><li>m.</li><li>wap.</li><li>.</li><li>/</li><li>.cn</li><li>.com</li><li>.org</li><li>.html</li><li>.php</li></aa>
+			<aa class='shortcut2'></aa>
+		</aa>
+	</aa>
+</aa>
+<aa class='addbook-shade'>
+	<aa id='addbook-from'>
+		<aa class='addbook-title'>添加书签</aa>
+		<aa class='addbook-content'>
+			<input type='text' class='addbook-input' placeholder='标题'>
+			<input type='text' class='addbook-input' placeholder='地址'>
+			<aa id='addbook-upload'></aa>
+			<input type='file' id='addbook-pick'>
+		</aa>
+		<aa class='addbook-btn'><a class='addbook-btn0'>确定</a><a class='addbook-btn1'>取消</a></aa>
+	</aa>
+</aa>
+<aa id='set-from'>
+	<p class='set-logo'>设置 
+<button class='set-btn' >保存</button> 
+<button class='set-btn' >调整</button>
+</p>
+	
+	<ul class='set-option-from'>
+		<li class='set-option'>
+			<p class='set-title'>初始化设置</p>
+			<button class='set-btn' >初始化</button> 
+			<p class='set-description'>重置所有设置选项</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>主页图标</p>
+			<button class='set-btn' >图标</button>
+			<p class='set-description'>图片过大会影响加载速度</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>主页壁纸</p>
+			<button class='set-btn' >壁纸</button>
+			<p class='set-description'>图片过大会影响加载速度</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>主题颜色</p>
+			<select id = 主题颜色  class='set-select'><option value=0 >随机</option><option value=1>蓝色</option><option value=2 >黄色</option><option value=3 >绿色</option><option value=4 >粉色</option><option value=5 >紫色</option></select>
+			<p class='set-description'>主页主题色调</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>特有书签</p>
+			<select id = '特有书签' class='set-select'><option value='com'>常用书签</option><option value='x'>X书签</option><option value='hc'>荟萃书签</option><option value='qq'>qq书签</option><option value='b'>bz书签</option><option value='m'>m书签</option><option value='tg'>土狗书签</option><option value='milk'>milk书签</option></select>
+			<p class='set-description'>适配不同浏览器特有书签</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>弹窗方式</p>
+			<select id = 弹窗方式 class='set-select'><option value=''>0.链接打开</option><option value='1'>1.弹窗打开</option><option value='2'>2.原窗改址</option><option value='3'>3.延时弹出</option><option value='4'>4.自动点链</option><option value='5'>5.模拟点链</option><option value='6'>6.模拟表单</option></select>
+			<p class='set-description'>兼容不同浏览器弹窗方式</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>调试页面</p>
+			<select id = 调试页面 class='set-select'><option value=''>0.无调试</option><option value='1'>1.Myalert</option><option value='2'>2.Eruda</option><option value='3'>3.VConsole</option></select>
+			<p class='set-description'>选择 Eruda、VConsole 调试页面</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>高级播放器</p>
+		<aa class="ios-checkbox">
+			<input type="checkbox" name="emulate-ios-button" class="raw-checkbox">
+			<label class="emulate-ios-button"></label>
+		</aa>
+			<p class='set-description'>启用CKplayer</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>反色模式</p>
+		<aa class="ios-checkbox">
+			<input type="checkbox" name="emulate-ios-button" class="raw-checkbox">
+			<label class="emulate-ios-button"></label>
+		</aa>
+			<p class='set-description'>兼容不同浏览器夜间模式</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>跨域请求</p>
+		<aa class="ios-checkbox">
+			<input type="checkbox" name="emulate-ios-button" class="raw-checkbox">
+			<label class="emulate-ios-button"></label>
+		</aa>
+			<p class='set-description'>启用/关闭跨域请求</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>模拟选项</p>
+		<aa class="ios-checkbox">
+			<input type="checkbox" name="emulate-ios-button" class="raw-checkbox">
+			<label class="emulate-ios-button"></label>
+		</aa>
+			<p class='set-description'>下拉选项无故障请关闭</p>
+		</li>
+		
+		<li class='set-option'>
+			<p class='set-title'>备份</p>
+			<p class='set-description'>未完成</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>还原</p>
+			<aa class='set-upload'></aa>
+			<p class='set-description'>未完成</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>检查更新</p>
+			<p class='set-description'>当前版本：1.1</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>码云下载</p>
+			<p class='set-description'><a class='set-description' href='https://gitee.com/xiaobaizzz/liulanqizhuye'>https://gitee.com/xiaobaizzz/liulanqizhuye</a>
+			</p>
+		</li>
+		<li class='set-option'>
+			<p class='set-title'>关于</p>
+			<p class='set-description'>原创：<a class='set-description' href='http://www.coolapk.com/u/854901'>酷安@BigLop</a>丶优化：<a class='set-description' href='http://www.coolapk.com/u/696533'>酷安@丨晓柏惜梦丨</a></p>
+		</li>
+	</ul>
+	<p class='set-bottom' >
+<button class='set-btn' >保存</button> 
+<button class='set-btn' >调整</button>
+</p>
+	<input type='file' id='set-upload'>
+</aa>
+</aa>
+
+<script src = js/ff.js ></script>
+<script src = js/jquery.js ></script>
+<script src = js/ajax.js async ></script>
+<script src = js/sweetalert.min.js async ></script>
+<script type = 'text/javascript' >
+
+/* VIA 仿夸克浏览器
+ * name	 via-quark-homepage
+ * author   BigLop
+ * version  1.1
+ */
+function FnVia() {
+	检测平台();
+	var Storage = [],This = this;
+	
+	 This.save = function (i,v) {
+		Storage.set[i][1] = Storage.set[Storage.set[i][0]] = v;
+			localStorage.setItem('set', JSON.stringify(Storage.set));
+			(i==4)&&This.bookmark(1)
+		}
+		
+	//书签存储
+	 This.bookmark = function (s) {
+		var j=[['http://hot.meibp.com','热搜'], [ff.st.pt?'http://www.crntt.com/crn-webapp/touch':'http://www.crntt.com','中评'], ['http://tieba.baidu.com/mo/q---:FG=1-sz@320_,-1-3-0--2--wapp_/m?tn=bdIndex','贴吧'],['http://m.sohu.com', '搜狐'],['https://m.tianqi.com', '天气'], ['朗读.html', '朗读'],['https://www.maitun.net/fanhao/new', '剑大'], [ff.st.pt?'http://www.netbian.com/shouji/meinv':'https://pic.netbian.com/4kmeinv', '美女'], [ff.st.pt?'http://m.zd9999.com':'http://www.zd9999.com', '影视'], ['http://srvcn.xbext.com/mobile/h5_games', '游戏'], ['搜索.html', '搜索'],['播放.html', '播放'], ['代码.html', '代码'], ['强帖.html', '强帖'], ['测试.html', '测试']],
+		com=[],
+		x=[['x:history', '历史'],['x:sc', '脚本'], ['x:home', '主页'], ['x:adb', '广告'], ['x:ua', '标识']],
+		milk=[['javascript.open("ExploreActivity")', '探索'],['javascript.open("ScriptActivity")', '脚本'], ['javascript.open("HomeActivity")', '主页'], ['javascript.open("AdBlockActivity")', '广告'],['javascript.open("UseragentActivity")', '标识']],
+		m=[['m:history', '历史'], ['m:qm', '轻站'],['m:home', '首页'], ['https://7cc7cc.com/search--1.htm', '论坛'],['https://www.nr19.cn/browser', '官网']],
+		tg=[['m:history', '历史'],['m:extend-list', '扩展'], ['m:home', '首页'], ['https://7cc7cc.com/search--1.htm', '论坛'],['https://www.nr19.cn/tgllq', '官网']],
+		b=[['b://history', '历史'],['b://javascript_list', '腳本'],['b://localhome', '首页'], ['b://ad_set', '广告'], ['b://set', '设置'],],
+		qq=[['qb://history', '历史'],['qb://ext/novel/shelf?tab=shelf', '书架'],['qb://tab/xhome', '直达'], /*['qb://miniprogram?module=miniprogress&component=miniprogress', '小程序'],*/ ['qb://tab/file', '文件'], ['qb://setting', '设置'],],
+		hc=[['meta:history', '历史'],['activity:webapp', '脚本'],['meta:home', '首页'], ['activity:adb', '广告'], ['activity:base', '基础']],
+		bs = s?Storage.set.specail:ff.st.bs,
+		sq = eval(bs).concat(j);
+		localStorage.setItem('book', JSON.stringify(sq));
+	}
+	
+	//调整高度
+	This.Size = function (e) {
+		return;
+		var zh=document.documentElement.clientHeight,
+		dom = β('.main'),
+		h = (Storage.set.specail!='com')?1.5:1,
+		xp = zh<580?10:0,
+		t = (zh - dom.offsetHeight)*h/2-xp;
+		/* e ? $('.main').animate({
+			top: t
+		}, 200) : $('.main').css('top',t);*/
+		
+		if (ff.st.csv) {
+			css变量('--mtop', t + 'px');
+		} else {
+			dom.style.top = t + 'px';
+		}
+	}
+	
+	//懒加载
+	This.Setscript = function () {
+		加载('js/sweetalert.min.js');
+		加载('js/ajax.js');
+		加载('js/gbk.js');
+		加载('bk/试看.js');
+	}
+	
+	
+	/*
+	 * 加载主程序
+	 */
+	This.Init = function () {
+		try{
+		if (!localStorage.set) {
+			检测浏览器();
+			检测内核();
+			var sz = [['engines', ''], ['logo', ''], ['wallpaper', 蕾丝(0)],['bookcolor', 0],['specail',ff.st.bs],['win',0 ],['ts',0],['ck',ff.st.x5?0:1],['night',''],['ky',0], ['selbug', 0]];
+			localStorage.setItem('set', JSON.stringify(sz));
+			This.bookmark();
+			This.Msg('本页面书签和设置存储于网页存储');
+			setTimeout(function () { This.Msg('请勿清除缓存里的网页存储。'); }, 400);
+			setTimeout(function () { This.Msg('长按logo进入设置，点击logo进入书签。');}, 800);
+		}
+		//获取存储
+		Storage.set = JSON.parse(localStorage.getItem('set'));
+		for (var i = Storage.set.length - 1; i > -1; i--)
+			{Storage.set[Storage.set[i][0]] = Storage.set[i][1];}
+		Storage.book = JSON.parse(localStorage.getItem('book'));
+		//构建页面
+		var Html = '';
+		ff.st.tc = Storage.set.win;
+		ff.st.fs = Storage.set.night;
+		for (var i = 0; i < Storage.book.length; i++) {
+			var p = Storage.book[i][2]||'img/kjfs.png' ,
+			t = Storage.book[i][1],
+			u = Storage.book[i][0],
+			ah = 弹出(u,null,null,null,1 );
+			Html+='<li><aa><a target='+ah[0]+' href='+ah[1]+'><aa class=imgbook style=background-image:url('+p+')></aa><p>'+t+'</p></a></aa></li>';
+		}
+		α('book').innerHTML = Html;
+		var bc = 随机色(Storage.set.bookcolor),
+		bimg = 'url(' + Storage.set.wallpaper + ')',
+		limg = 'url(' + Storage.set.logo + ')';
+		if (ff.st.csv) {
+			css变量('--bg', bc);
+			css变量('--bimg', bimg);
+			css变量('--limg', limg);
+		} else {
+			改规(1, '', 'background-color:' + bc);
+			改规(2, '', 'background-image:' + bimg);
+			改规(3, '', 'background-image:' + limg);
+		}
+		α('环境').innerHTML= '<a target = _blank   href= http://192.168.1.4:8080/书签/主页.html >' +ff.st.hj + '</a>';
+		This.BookLongPress();
+		This.setSearchText();
+		This.setShortcut();
+		//setTimeout(This.Size, 500);
+		}catch(e){}
+
+
+//－－－－－－－－－－壁纸logo－－－－－－－－－－－－
+		This.wallpapers = function (url,i) {
+		url = url!=null?url:Storage.set[i][1];
+		var bt = '主页'+ (i>1?'壁纸':'图标');
+		swal({
+			title:bt,
+			content: {
+				element: 'zz',
+				attributes: {innerHTML : 模板('textarea')}
+			},
+			buttons: {
+				e: '确定',
+				f: {text: '清除',closeModal: 0},
+				g: '复制',
+				h: '关闭',
+				a: '网络随机图片',
+				b: '本地随机图片',
+			},
+		}).then(function (btn) {
+			var dm = α('输入框'),
+			u = dm.value;
+			switch (btn) {
+				case 'a':This.picture('a',i);break;
+				case 'b':This.picture('b',i);break;
+				case 'e':This.picture(u,i);break;
+				case 'f':This.wallpapers('',i);α('输入框').focus();break;
+				case 'g':复制(dm);break;
+			}
+		});
+		α('输入框').value = url;
+		}
+
+		This.picture = function(url, i) {
+			var fn = function(u) {
+				Storage.set[i][1] = u;
+				localStorage.setItem('set', JSON.stringify(Storage.set));
+				This.Init();
+			}
+			switch (url) {
+				case 'a':
+					fn(蕾丝());
+					break;
+				case 'b':
+					fn(蕾丝(0));
+					break;
+				default:
+					fn(url);
+			}
+		}
+
+		$('#logo').longPress(function () {window.open('简页.html')});
+		
+
+
+//－－－－－－－－－－快捷方式－－－－－－－－－－－－
+
+		$('#book').on('click', 'li', function (e) {
+			e.stopPropagation();
+			if (!$(this).find('.delbook').length) {
+				var t = $(this).find('aa').attr('value');
+				switch (t) {
+				case 'addbook()':
+					$('.addbook-input').val('');
+					$('#addbook-upload').html('点击选择图标');
+					$('.addbook-shade').show();
+					$(document).click();
+					break;
+				case void 0:
+					break;
+				default:
+				}
+			}
+		});
+		
+		//标签颜色 选项存储
+		$('.set-select,.search-select').change(function () {
+			var _this = $(this),
+			i = _this.parent().index(),
+			v = _this.val();
+			This.save(i,v);
+		})
+		
+		
+
+		
+		$(function () {
+			var x,
+			y,
+			_this,
+			w,
+			h,
+			p,
+			left,
+			top,
+			wid,
+			pos,
+			status = 0,
+			$this = $('#book')[0];
+			$this.addEventListener('touchstart', function (e) {
+				var t = $(e.target).parents('li');
+				if (!t.is('li') || !$('.delbook').length || t.is('.addbook') || e.target.className === 'delbook' || status)
+					return;
+				_this = t;
+				pos = _this.index();
+				w = _this.width();
+				h = _this.height();
+				p = _this.offset();
+				left = p.left;
+				top = p.top;
+				_this.css({
+					'width': w,
+					'height': h,
+					opacity: .8,
+					left: left,
+					top: top
+				}).before('<li class="holder"></li>');
+				wid = $('.holder');
+				var thouch = e.targetTouches[0];
+				x = thouch.pageX;
+				y = thouch.pageY;
+				w /= 2;
+				h /= 2;
+				status = 1;
+				_this.find('.delbook').remove();
+			}, {
+				passive: true
+			});
+
+			$this.addEventListener('touchmove', function (e) {
+				if (status) {
+					var thouch = e.targetTouches[0];
+					var l = left + thouch.pageX - x;
+					var t = top + thouch.pageY - y;
+					_this.css({
+						'left': l,
+						'top': t
+					});
+					l += w;
+					t += h;
+					$($this).children().not(_this).not(wid).not('.addbook').each(function (i) {
+						var obj = $(this),
+						p = obj.offset();
+						if (p.left < l && l < p.left + obj.width() && p.top < t && t < p.top + obj.height())
+							return obj.next('.holder').length ? wid.insertBefore(this) : wid.insertAfter(this), !1;
+					});
+				}
+			}, {
+				passive: true
+			});
+
+			$this.addEventListener('touchend', function () {
+				if (status) {
+					var p = wid.offset();
+					_this.animate({
+						'left': p.left,
+						'top': p.top
+					}, 200, function () {
+						if ($('.holder').length) {
+							_this.removeAttr('style');
+							wid.replaceWith(_this);
+							var pos2 = _this.index();
+							Storage.book.splice(pos2 + (pos - pos2 < 0 && 1), 0, Storage.book[pos]);
+							Storage.book.splice(pos + (pos - pos2 > 0 && 1), 1);
+							localStorage.setItem('book', JSON.stringify(Storage.book));
+							status = 0;
+							_this.find('.imgbook').append('<aa class="delbook"></aa>'); 
+						}
+					});
+				}
+			}, {
+				passive: true
+			});
+		})
+		
+	}
+	
+	
+	//长按快捷方式
+	This.BookLongPress = function () {
+		//$("#book li").longPress(This.adjust);
+	}
+	
+	This.adjust = function () {
+			if (!$(".addbook").length && !$(".delbook").length) {
+				for (var i = $(".imgbook").length; i > -1; i--) {
+					$(".imgbook").eq(i).append('<aa class="delbook"></aa>');
+				}
+				$("#book li").length < 20 && $("#book").append('<li class="addbook"><aa value="addbook()"><aa class="imgbook" style="background-image:url(./img/addbook.png)"></aa><p>添加</p></aa></li>');
+				//This.Size(1);
+			}
+		}
+	
+	$.fn.longPress = function (fn) {
+		var timeout = void 0,
+		$this = this,
+		startPos,
+		movePos,
+		endPos;
+		for (var i = $this.length - 1; i > -1; i--) {
+			$this[i].addEventListener('touchstart', function (e) {
+				var touch = e.targetTouches[0];
+				startPos = {
+					x: touch.pageX,
+					y: touch.pageY
+				};
+				timeout = setTimeout(fn, 700);
+			}, {
+				passive: true
+			});
+			$this[i].addEventListener('touchmove', function (e) {
+				var touch = e.targetTouches[0];
+				movePos = {
+					x: touch.pageX - startPos.x,
+					y: touch.pageY - startPos.y
+				};
+				Math.abs(movePos.x - startPos.x) > 10 || Math.abs(movePos.y - startPos.y) > 10 && clearTimeout(timeout);
+			}, {
+				passive: true
+			});
+			$this[i].addEventListener('touchend', function () {
+				clearTimeout(timeout);
+			}, {
+				passive: true
+			});
+		}
+	};
+	
+	
+
+//－－－－－－－－－－设置入口－－－－－－－－－－－－
+
+		$('#logo').click(function () {
+			$('#set-from').animate({
+				opacity: .85,
+				marginTop: 0
+			}, 200).show();
+			for (var i = Storage.set.length - 1; i > -1; i--) {
+				if (Storage.set[Storage.set[i][0]]) {
+					$('.set-option').eq(i).find('.raw-checkbox').attr('checked',true); 
+					$('.set-option').eq(i).find('select').val(Storage.set[Storage.set[i][0]]);
+
+				}
+			}
+		});
+
+		
+		$('.set-btn').click(function() {
+			switch (this.innerHTML) {
+				case '初始化':
+				    var cl = confirm('是否删除所有缓存');
+					localStorage.removeItem('book');
+					localStorage.removeItem('set');
+					cl&&localStorage.clear();
+					location.reload();
+					break;
+				case '保存':
+					This.saveset()
+					break;
+				case '调整':
+					$('#set-from').hide();
+					setTimeout(This.adjust, 0);
+					break;
+				case '壁纸':
+					This.wallpapers(null,2);
+					break;
+				case '图标':
+					This.wallpapers(null,1);
+					break;
+			}
+		});
+		
+		This.saveset = function () {
+					$('#set-from').animate({
+						opacity: 0,
+						marginTop: 40
+					}, 200, function() {
+						$('#set-from').hide();
+					});
+					setTimeout(function() {
+						This.Msg('OK，设置已保存');
+						This.Init();
+					}, 0);
+			}
+
+		$('.set-option,.search-option').click(function () {
+			var i = $(this).index(),v,bt=$(this).find('.set-btn'),ck=$(this).find('.raw-checkbox'),ss=$(this).find('select'),l,j;
+			if (ss.length) {
+				(ff.st.sj&&i!=0)&&模拟点击(ss[0]);
+				//if(!Storage.set.selbug) return;
+				//l=ss[0].length;
+				//j=ss[0].selectedIndex;
+				//j=(j+1==l)?0:j+1;
+				//ss[0].options[j].selected = true;
+				//v=ss[0].value;
+				//This.save(i,v);
+				}
+			else if (ck.length) {
+				if (!Storage.set[i][1]) {
+					ck.attr('checked',true); 
+					v = 1;
+				} else {
+					ck.attr('checked',false); 
+					v = 0;
+				}
+				This.save(i,v);
+			} else if (bt.length) {
+				bt[0].click();
+			}  else if ($(this).find('.set-upload').length) {
+				$('#set-upload').click().attr('option', i);
+			} 
+		});
+	
+//－－－－－－－－－－添加书签－－－－－－－－－－－－
+
+		
+		$('#addbook-upload').click(function () {
+			$('#addbook-pick').click();
+		})
+
+		$('#addbook-pick').on('change', function (e) {
+			var files = $(this).prop('files');
+			var reader = new FileReader();
+			reader.readAsDataURL(files[0]);
+			reader.addEventListener('load', function (e) {
+				$('#addbook-upload').html('<img src="' + e.target.result + '"></img><aa>' + files[0].name + '</aa>');
+			})
+		})
+
+		$('.addbook-btn0').click(function () {
+			var t = $('.addbook-input').eq(0).val(),
+			u = $('.addbook-input').eq(1).val(),
+			p = $('#addbook-upload img').attr('src')||'img/kjfs.png',
+			ah = 弹出(u,null,null,null,1 );
+			if (t.length && u.length && p.length) {
+				Storage.book.push([u, t, p]);
+				localStorage.setItem('book', JSON.stringify(Storage.book));
+				$('.addbook-btn1').click();
+				var i = Storage.book.length - 1;
+				$('#book').append('<li><aa><a target='+ah[0]+' href='+ah[1]+'><aa class=imgbook style=background-image:url('+p+')></aa><p>'+t+'</p></a></aa></li>');
+				$('#book li').eq(i).find('aa').eq(0).css('margin-top', '84px').animate({
+					marginTop: 0
+				}, 200, function () {
+					//This.Size(1);
+				});
+				This.BookLongPress();
+			}
+		})
+
+		$('.addbook-btn1').click(function () {
+			$('.addbook-shade').css('animation', 'fadeOut .2s');
+			$('#addbook-from').css('animation', 'down .2s');
+			setTimeout(function () {
+				$('.addbook-shade').hide();
+				$('.addbook-shade,#addbook-from').removeAttr('style');
+			}, 170);
+
+		})
+
+		$('#book').on('click', '.delbook', function (e) {
+			e.stopPropagation();
+			var i = $(this).parents('li').index();
+			$('#book li').eq(i).find('.delbook').remove();
+			$('#book li').eq(i).find('aa').eq(0).animate({
+				marginTop: 84
+			}, 200, function () {
+				$('#book li').eq(i).remove();
+				//This.Size(1);
+			});
+			Storage.book.splice(i, 1);
+			localStorage.setItem('book', JSON.stringify(Storage.book));
+		});
+
+		$('.addbook-shade').click(function (e) {
+			if (e.target.className === 'addbook-shade')
+				$('.addbook-btn1').click();
+		})
+
+		$(document).click(function () {
+			if ($('.delbook').length) {
+				$('.delbook').css('animation', 'scale2 .2s');
+				setTimeout(function () {
+					$('.delbook').remove();
+					//This.Size(1);
+				}, 150);
+				$('.addbook').remove();
+			}
+		});
+		
+//－－－－－－－－－－搜索进入－－－－－－－－－－－－
+
+		$('#edit').click(function () {
+			//主页
+			$('#edit,#book').css('animation', 'down .3s');
+			//搜索页初始化
+			$('#suggestion').html('');
+			$('.close').html('取消');
+			$('.back').hide();
+			Storage.set.engines&&$('.search-select').val(Storage.set.engines);
+			//搜索页
+			$('#search-from').css('animation', 'fadeIn .3s').show();
+			setTimeout(function () {
+				$('#input-bb,.shortcut').show();
+				$('#search-input').focus().val('');
+			}, 200);
+			SRL= β('#search-input');
+		});
+		
+		$('#search-from').click(function (e) {
+			if (e.target.parentNode.id === 'suggestion') {
+				var s = e.target.innerText;
+				if (s){
+					SRL.value=s;
+					This.Inputchange();
+					This.SearchText(s);
+					return 
+					}
+			}
+			if (e.target.id === 'search-from') {	
+				//主页
+				$('#edit,#book').css('animation', 'up .3s');
+				//搜索页
+				$('#search-from').css('animation', 'fadeOut .3s');
+				setTimeout(function () {
+					$('#search-from,.shortcut,#input-bb').hide();
+					//setTimeout(This.Size, 500);
+				}, 200);
+			}
+		});
+
+		
+		$('#search-input').on('input', function () {
+			This.Inputchange();
+		});
+
+		$('.back').click(function () {
+			$('#search-input').focus().val('');
+			This.Inputchange();
+		});
+
+		$('.shortcut1 li').click(function (e) {
+			$('#search-input').focus().val($('#search-input').val() + e.target.innerText);
+			This.Inputchange();
+		});
+
+		
+	//搜索引擎
+	This.setSearchText = function () {
+		var i, bk='',sz = {
+		'百度':ff.st.pt?'https://m.baidu.com/pu=sz%401321_1001/s?word=':'https://www.baidu.com/s?word=',
+		'谷歌':'http://www.google.com.hk/search?q=',
+		'谷歌+':'http://www.google.com.tw/search?q=',
+		'必应':'http://cn.bing.com/search?q=',
+		'F搜':'https://fsoufsou.com/search?tbn=all&q=',
+		'无追':'https://www.wuzhuiso.com/s?q=',
+		'神马':'http://m.sm.cn/s?q=',
+		'夸克':'https://quark.sm.cn/s?q=',
+		'好搜':'https://www.so.com/s?q=',
+		'搜狗':'https://www.sogou.com/web?query=',
+		'yandex':'https://yandex.com/search/smart/?text=',
+		'qwant':'https://www.qwant.com/?q=',
+		'magi':'https://magi.com/search?q=',
+		};
+		for (i in sz) {
+			bk += '<option value = "'+sz[i]+'" >'+i+'</option>'
+			}
+			$('.search-select').html(bk)
+		}
+	
+	This.SearchText = function (t) {
+		var u = $('.search-select').val();
+		弹出(u+t);
+	}
+	
+		//快捷搜索
+		This.setShortcut = function () {
+		var i, bk='',sz = {
+			'搜索':'',
+			'播放':'',
+			'代码':'',
+			'试看':'',
+			'资源':'',
+			'知乎':'https://www.zhihu.com/search?type=content&q=',
+			'贴吧':'https://tieba.baidu.com/f/search/res?ie=utf-8&rn=20&sm=1&qw=',
+			'微博':'http://s.weibo.com/weibo/',
+			'微信':'https://weixin.sogou.com/weixinwap?type=2&ie=utf8&query=',
+			'天涯':'http://search.tianya.cn/m/bbs.jsp?q=',
+			'头条':'https://so.toutiao.com/search/?keyword=',
+			'批踢':'https://www.ptt.cc/bbs/Gossiping/search?page=1&q=',
+			'迪卡':'https://www.dcard.tw/search?query=',
+			'推特':'https://mobile.twitter.com/search?q=',
+			'油管':ff.st.pt?'https://m.youtube.com/results?search_query=':'https://www.youtube.com/results?search_query=',
+			'视频':'https://m.baidu.com/sf?pd=video&tn=vsearch&ms=1&atn=index&word=',
+			'腾讯':'https://v.qq.com/x/search/?q=',
+			'奇艺':ff.st.pt?'http://m.iqiyi.com/search.html?key=':'http://so.iqiyi.com/so/q_',
+			'优酷':ff.st.pt?'http://www.soku.com/m/y/video?q=':'https://so.youku.com/search_video/q_',
+			'哔哩' :ff.st.pt?'https://m.bilibili.com/search?keyword=':'https://search.bilibili.com/all?keyword=',
+			'斗鱼' :ff.st.pt?'https://m.douyu.com/home/search?kw=':'https://www.douyu.com/search/?kw=',
+			'豆瓣':ff.st.pt?'https://m.douban.com/search/?query=':'https://www.douban.com/search?q=',
+			'视猫':ff.st.pt?'https://m.tvmao.com/query.jsp?keys=':'https://www.tvmao.com/query.jsp?keys=',
+			'影视':'http://m.zd9999.com/HBsearch.asp?q=',
+			'音乐':'https://tool.rainss.cn/music/?type=netease&name=',
+			'小说':'http://m.qishula.com/e/search/index.php?show=title%2Cwriter&keyboard=',
+			'思否':'https://segmentfault.com/search?q=',
+			'博客':'https://zzk.cnblogs.com/s/blogpost?w=',
+			'csdn':'https://so.csdn.net/wap?q=',
+			'吾爱':'http://zhannei.baidu.com/cse/site?cc=52pojie.cn&ie=utf&q=',
+			'github':'https://github.com/search?q=',
+			'gitee':'https://search.gitee.com/?skin=rec&type=repository&q=',
+			'油猴':'https://www.greasyfork.org/zh-CN/scripts?utf8=%E2%9C%93&q=',
+			'蕾丝':'https://www.lsmpx.com/search.php?mod=forum&searchsubmit=yes&srchtxt=',
+			'域名':'https://ipchaxun.com/',
+			'域名2':'https://mip.chinaz.com/?query=',
+			'豌豆':'http://www.wandoujia.com/search?key=',
+			'厉趣':'http://m.liqucn.com/search/s.php?words=',
+			'乐园':'http://s.shouji.com.cn/cse/search?&s=10599229482612753267&nsid=2&q=',
+			'应用':'https://m.apkpure.com/cn/search?q=',
+			'商店':'https://play.google.com/store/search?c=apps&q=',
+			'旧应用':'https://apk.gold/search/',
+			'安卓':'http://s.2265.com/m/?k=',
+			'档案':'https://web.archive.org/web/20230000000000*/',
+		};
+		for (i in sz) {
+			bk += '<li value = "'+sz[i]+'">'+i+'</li>'
+			}
+			$('.shortcut2').html(bk)
+			$('.shortcut2 li').click(This.Shortcut)
+		}
+		
+		This.Shortcut=function () {
+			var isgbk,isda,tc,u,t=SRL.value||'';
+			switch ($(this).html()) {
+			case '搜索':搜索('',t);t=0;break;
+			case '播放':播放(t);t=0;break;
+			case '代码':代码(t);t=0;break;
+			case '试看':试看(t);t=0;break;
+			case '资源':代码('',t);t=0;break;
+			case '小说':tc = 6;isgbk=1;break;
+			case '档案':isda=1;break;
+			}
+			if (!t) return;
+			u = $(this).attr('value');
+			t  = isda?t:isgbk?en_GBK(t):en_URIC(t);
+			弹出(u + t, tc);
+		};
+		
+		
+		$('.enter').click(function () {
+			var url = $('#search-input').val(),
+			cf = ff.reg.中文.test(url)&&confirm('检测到链接里有中文，是否删除');
+			url = cf?url.replace(ff.reg.中文,''):url;
+			url = url.replace(/\s/g,'')
+			$('#search-input').val(url);
+			弹出(url);
+		});
+		
+		$('.close').click(function () {
+			This.Search();
+		});
+		$('#search-input').keydown(function (e) {
+			e.keyCode === 13 && This.Search();
+		});
+		
+	//搜索热词
+	This.Inputchange = function () {
+		var t = $('#search-input').val();
+		if (!t) {
+			$('.back').hide();
+			$('.close').html('取消');
+		} else {
+			$('.back').show();
+			$('.close').html('搜索');
+		}
+		$.ajax({
+			url: 'http://suggestion.baidu.com/su',
+			type: 'GET',
+			dataType: 'jsonp',
+			data: {
+				wd: t,
+				cb: 'Via.Su'
+			},
+			timeout: 5e3
+		});
+	}
+	
+	This.Su = function (e) {
+		var urls = e.s;
+		var html = '';
+		for (var i = urls.length; i > 0; i--) {
+			html += '<li>' + urls[i - 1] + '</li>';
+		}
+		$('#suggestion').html(html).scrollTop($('#suggestion')[0].scrollHeight);
+	}
+
+	
+	This.Search = function () {
+		var t = $('#search-input').val();
+		t=en_URIC(t);
+		if (!t) {
+			$('#search-from').click();
+		} else {
+			This.SearchText(t);
+		}
+	}
+
+	
+	//提示信息
+	This.Msg = function (text){
+		var newtip = '<aa id = "提示" class="tips"><i></i><p>'+text+'</p></aa>';
+		$('#app').append(newtip);
+		var tmp = $('.tips:last-child');
+		setTimeout(function () { tmp.css('animation','up2 .3s')}, 3000);
+		setTimeout(function () {
+			tmp.css('opacity','0');
+			setTimeout(function () {
+				if($('.tips:last-child').css('opacity')==0)
+				{$('.tips').remove()}
+			},250);
+		}, 3250);
+	}
+
+}
+
+
+if (typeof Via == 'undefined') {
+	var Via = new FnVia();
+	Via.Init();
+}
+
+
+</script>
+</body>
+</html>
