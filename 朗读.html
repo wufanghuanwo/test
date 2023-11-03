@@ -1,0 +1,1209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head> 
+<meta charset=UTF-8 ><!-- 编码类型 -->
+<meta http-equiv= cache-control content= private ><!-- 允许缓存 -->
+<meta name= viewport  content= width=device-width,user-scalable=0 ><!-- 禁止缩放 -->
+<meta name= format-detection  content= telephone=no ><!-- 禁止触发电话 -->
+<meta http-equiv="Access-Control-Allow-Origin" content="*"><!-- 允许跨域访问 -->
+<meta name="nightmode" content="disable"><!-- 禁用夜间模式 -->
+
+<style>
+
+a,p,hr,dt,a,dl,body,input,select,audio,video,button{margin:0;padding:0;box-sizing: border-box;}
+body,html{text-align:center;margin:0;padding:0; width:100% !important;height:100% !important;background:#111;color:#adf}
+a{color:#adf}
+a:hover{background:#373 !important;cursor:pointer;}
+a:active{background:#733 !important}
+a:visited{ color:#c90 !important}
+#app{position: relative;max-width: 400px;margin:0 auto;height:100%;width: 100%;overflow:hidden;}
+#文本外框{width:100%;position:absolute;bottom:240px;top:24px}
+#文本{ margin:auto;width:90%;max-width:400px;height:100%; text-align:left; border:solid 1px gray;overflow:auto;}
+#面板外框{width:100%; position:absolute;bottom:35px;height:200px;}
+#面板{margin: auto; width:90%;max-width:400px }
+audio,video{width:100%;height:35px;;max-width:700px}
+#文件栏{font-size:0;width:0;height:0;border:none;opacity:0;background-image:none}
+a{TEXT-DECORATION:none;}
+#弹框{background:#111}
+.swal-button{min-width:78px;height:35px;}
+.swal-button{min-width:58px}
+body,.swal-button,.bn,select,#面板外框,#文件栏,#标题{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+#进度条{width:99%;;max-width:400px}
+#进度{position:absolute;top:-22px;right:10px}
+#音乐开关{position:absolute;top:-22px;left:15px}
+#播放区{overflow:hidden;}
+.bn,#页面 button,#页面 select,bb{border:solid 1px gray !important}
+.bn{text-align:center;text-transform: none;vertical-align: middle;line-height:1.65;display:inline-block;white-space:nowrap;overflow:hidden;}
+.bn{border-radius:5px;margin:4px 0px;padding:0;height:26px;width:23.3%;font-size:15px;}
+select{margin:4px 0px; padding:0;height:28px;width:23.3%;background:#111;color:#adf}
+hr{background-color:gray !important;height:1px;border:0;margin:2px;clear:both}
+video{object-fit:fill !important;allowFullScreen:"ture";border:0;overflow:auto;text-align:left;}
+#音乐区{position:absolute;top:-1000px;}
+
+
+
+/*电脑样式*/
+@media (min-width:400px) and (min-height:500px) {
+.swal-button{min-width:100px;}
+}
+
+/*手机样式*/
+@media (max-width:400px) and (max-height:750px) {
+.swal-text{width:90%}
+::-webkit-media-controls-panel{background: #777}
+
+#页面 select{background-color:transparent !important}
+
+/*重写select样式*/
+select{ -moz-appearance:none; -webkit-appearance:none;appearance:none;background: url('img/arrow.png') no-repeat scroll right center transparent;padding-right: 15px; padding-left:5px;border-radius: 0;}
+
+
+/*进度条样式*/
+input[type=range] {
+	margin:8px 0px 12px;
+	height: 7px;
+	-webkit-appearance: none;
+	width: 99%;
+	background: -webkit-linear-gradient(#4b6, #796) no-repeat, #ddd;/*设置左边颜色为#4b3，右边颜色为#ddd*/
+	background-size: 100% 100%;/*设置左右宽度比例*/
+	border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
+}
+input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;/*隐藏滑块*/
+}  
+ 
+input[type=range]::-webkit-slider-runnable-track {
+	height: 7px;
+	border-radius: 10px; /*将轨道设为圆角的*/
+	box-shadow: 0 1px 1px #aaa, inset 0 0.5px 0.5px #111; /*轨道内置阴影效果*/
+}
+
+input[type=range]:focus {
+	outline: none;/*原始的控件获取到焦点时，会显示包裹整个控件的边框，所以还需要把边框取消。*/
+}
+
+input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	height: 15px;
+	width: 15px;
+	margin-top: -4px; /*使滑块超出轨道部分的偏移量相等*/
+	background: #36f  !important; 
+	border-radius: 50%; /*外观设置为圆形*/
+	border: solid 0.5px rgba(205, 224, 230, 0.5); /*设置边框*/
+	box-shadow: 0 .5px .5px #3b4547; /*添加底部阴影*/
+}
+
+}
+	
+/*小屏样式*/
+@media (max-width:360px) and (max-height:580px) {
+#面板外框{height:200px;}
+#文本外框{bottom:240px;}
+select{width:23.5%;}
+.bn{width:23.5%;}
+.swal-title,.swal-title a{font-size: 22px}
+.swal-button{padding:3px;margin:-1px 0px}
+.swal-text{max-height:200px;}
+audio,video{height:35px}
+::-webkit-media-controls-panel{height:35px;}
+::-webkit-media-controls-panel{background: #333}
+
+
+}
+
+/*迷你样式*/
+@media (max-width:320px) and (max-height:480px) {
+.swal-text{max-height:180px;}
+}
+
+
+</style>
+</head>
+
+
+<base target = _self >
+
+<title>朗读</title>
+<body id= 页面 >
+<div id= app >
+<input id = 文件栏 type="file" onchange="读取(this)">
+<span id = 标题 onclick = 模拟点击(WJL) >朗读</span>
+
+<br>
+<div id="文本外框" >
+<span id = 音乐开关 onclick = 音乐开关() >off</span>
+<span id = 进度 onclick = 跳页() >0%</span>
+<div id="文本" onclick = 文本框(this) ></div>
+</div>
+<br>
+<div id = 面板外框 >
+<div id = 面板 >
+	<zz style='margin:auto' >
+	<p style='float:left;padding:3px' >
+		<a  onclick="上一页()"  />-</a>
+	</p>
+	<p style='float:right;padding:3px' >
+		<a onclick="下一页()"  />+</a>
+	</p>
+	<p style='overflow:hidden' >
+	<input type="range"  id = "进度条" onchange = "进度(this.value)" value = 0 min=0 step=0.01  max=100 /><br>
+	</p>
+	</zz>
+	
+	<div id = 播放区 >
+		<span id = 音频区 >
+		<audio id="音频朗读器1" onplay = 准备下一段() onended = 播放下一段() controls  ></audio>
+		<audio id="音频朗读器2" onplay = 准备下一段() onended = 播放下一段() controls style = 'display:none' ></audio>
+		</span>
+		<span id = 视频区 style = 'display:none' >
+		<video id="视频朗读器1" onplay = 准备下一段() onended = 播放下一段() controls ></video>
+		<video id="视频朗读器2" onplay = 准备下一段() onended = 播放下一段() controls  style = 'display:none'></video>
+		</span>
+		</div>
+		
+	<select id = 内容类型 onChange = 加载选项(this,NR)  ></select>
+	<select id = 内容 onChange = 切换内容(this)  ></select>
+	
+	<select id=旁白类型  onChange = 加载选项(this,PB)  ></select>
+	<select id=旁白 ></select>
+	<br>
+	<select id=对话1类型  onChange = 加载选项(this,DH1)  ></select>
+	<select id=对话1 ></select>
+	<select id=对话2类型  onChange = 加载选项(this,DH2)  ></select>
+	<select id=对话2 ></select>
+	
+	
+<br>
+<a class=bn href=javascript:打开() >打开</a>
+<a class=bn href=javascript:书架(null,null,1) >书架</a>
+<a class=bn href=javascript:章节(1) >章节</a>
+<a class=bn href=javascript:音乐() >音乐</a>
+<br>
+<a class=bn href=javascript:准备播放(1) id = '试听' >试听</a>
+<a class=bn href=javascript:下载() >下载</a>
+<a class=bn href=javascript:设置() >设置</a>
+<a class=bn href=javascript:源站() >源站</a>
+<br>
+
+
+
+</div>
+</div>
+<span id = 音乐区 >
+<audio id="音频音乐播放器"  onended = this.play(); > </audio>
+<video id="视频音乐播放器"  onended = this.play(); > </video>
+</span>
+</div>
+</body>
+<script src = js/ff.js ></script>
+<script src = bk/语音.js ></script>
+<script src = bk/引擎.js async ></script>
+<script src = js/ajax.js async ></script>
+<script src = js/sweetalert.min.js async ></script>
+<script src = bk/引擎试验.js async ></script>
+
+<!--
+<script src = https://cdn.bootcss.com/crypto-js/3.1.9-1/crypto-js.min.js async ></script> 
+-->
+
+<script type='text/javascript'  charset='UTF-8'>
+	'use strict'
+	//严格模式 
+
+	var TXTBOX = α('文本'),
+	PB = α('旁白'),
+	PBLX = α('旁白类型'),
+	DH1 = α('对话1'),
+	DH1LX = α('对话1类型'),
+	DH2 = α('对话2'),
+	DH2LX = α('对话2类型'),
+	NR = α('内容'),
+	NRLX = α('内容类型'),
+	BT = α('标题'),
+	JDT = α('进度条'),
+	JD = α('进度'),
+	YYKG = α('音乐开关'),
+	WJL= α('文件栏'),
+	AUDS = α('音频区'),
+	VIDS = α('视频区'),
+	AUD1 = α('音频朗读器1'),
+	AUD2 = α('音频朗读器2'),
+	VID1 = α('视频朗读器1'),
+	VID2 = α('视频朗读器2'),
+	VID3 = α('视频音乐播放器'),
+	AUD3 = α('音频音乐播放器'),
+	Road = '..', Roadlx, VOL, SPD, PIT, EMO, NW, nextReady, JXLX='auto',DATALX='blob',directPlay,Timbre,saveURL,saveLB,saveI,saveNW,BGM,BGMVL,DHBJ = '♀',ZBLX,
+	TXTALL, TXTFD, FD, FDZS, ZJBK, nextUrl, usedUrl,mPlayerlx, musicPlayer = AUD3, Player=AUD1, Player1=AUD2, Playerlx = '音频',Exa=0,Charset = 'GBK';
+	
+
+	
+ //==============其他功能==============
+
+	function 准备播放(bf) {
+		try {
+			AUD1.play()
+			AUD2.play()
+			AUD3.play()
+			VID1.play()
+			VID2.play()
+			VID3.play()
+			AUD1.pause()
+			AUD2.pause()
+			AUD3.pause()
+			VID1.pause()
+			VID2.pause()
+			VID3.pause()
+		} catch (e) {}
+		if(!bf) return;
+		setTimeout(fn, 1000);
+		function fn() {
+			window.readyplay = 1;
+			α('试听').href = 'javascript:试听()'
+			试听();
+			musicPlayer.src = BGM;
+			musicPlayer.volume= BGMVL;
+			音乐开关();
+		}
+	}
+	
+	function 解析(res, type) {
+		var url, blob;
+		type = type || 'audio/mpeg'
+		if (JXLX == 'auto') {
+			if (typeof(res) == 'object') { 
+				readblob(res)
+				} else {
+					朗读(res)
+					}
+		} else if (JXLX == 'ab2blob') {
+			blob = ab2blob(res, type)
+			readblob(blob)
+		} else if (JXLX == 'ab2base64') {
+			url = 'data:' + type + ';base64,' + ab2base64(res)
+			朗读(url)
+		} else if (JXLX == 'blob2base64') {
+			blob2base64(res, readbase64)
+		} else if (JXLX == 'base642blob') {
+			blob = base642blob(res)
+			readblob(blob)
+		}
+		
+		function readblob(blob) {
+			url = window.webkitURL.createObjectURL(blob);
+			朗读(url)
+		}
+		
+		function readbase64(url) {
+			url = url.replace(/data.+base64/, 'data:' + type + ';base64');
+			朗读(url)
+		}
+	}
+		
+	function 朗读(url) {
+		if (directPlay) {
+			Player.src = url
+			Player.play();
+		} else {
+				usedUrl = nextUrl
+				nextUrl = url
+				Player1.src = url
+				nextReady = 1
+		}
+	}
+
+		
+	function 准备下一段() {
+		if (!window.readyplay) return
+		if (!FDZS) return
+		if (nextReady) return
+		var txt = TXTFD[FD + 1]
+		if (txt) {
+			try {
+				window.URL.revokeObjectURL(usedUrl);
+			} catch (e) {}
+			试听(txt);
+		} else {
+			usedUrl = nextUrl
+			nextUrl = null
+			Player1.src = 'about:blank'
+		}
+	}
+
+	function 播放下一段() {
+		if (!FDZS) return
+		if(FD==FDZS){ 下一本();return;}
+		if (!nextUrl) return
+		var rd = Player1.readyState
+		rd?fn():setTimeout(播放下一段, 250);
+		
+		function fn() {
+			nextReady = 0
+			Player.src = 'about:blank'
+			FD++;
+			进度()
+			切换()
+			setTimeout(fn1, 250);
+			}
+			
+		function fn1() {
+			Player.play();
+			储存();
+			}
+		}
+		
+	function 下一本() {
+		书架(saveLB,saveI+1)
+		setTimeout(试听, 3000);
+		}
+	
+	function 试听(txt) {
+		directPlay = txt ? 0 : 1;
+		txt = txt || TXTBOX.innerHTML;
+		if(!txt) {swal({title: '没有文本'});return;}
+		try {
+			var isdh1 = /♀/.test(txt),
+			isdh2 = /♂/.test(txt),
+			zb = isdh1? 'DH1':isdh2? 'DH2':'PB',
+			zblx = zb + 'LX',
+			voice = eval(zb).value,
+			fn = 分割(eval(zblx).value)[0];
+			txt = txt.replace(/(\s|♀|♂|：|—|--|－|==)/g, '')
+			if(!/[0-9a-zA-Z\u4E00-\u9FA5]/.test(txt)){txt = '嗯'}
+			eval(fn)(txt, voice, +VOL, +SPD, +PIT, +EMO)
+		} catch (e) {
+			//alert(e)
+		}
+	}
+
+	function 分段(txt) {
+		清屏()
+		var i = NW || 50 ,reg;
+		saveNW = i;
+		txt = 文字预处理(txt)
+		reg = '“?([^“”]{1,' + i + '}[。！？：；…—\?!;]|[^“”]{1,' + i + '}[，,])”?';
+		reg = new RegExp(reg, 'g');
+		TXTFD = txt.match(reg)
+		FDZS = TXTFD.length - 1;
+		进度()
+	}
+	
+	function 文字预处理(txt) {
+		txt = txt.replace(/(http(s|):\/\/|)(www\.|m\.|)\w{2,30}\.(com|org|net|cn|xyz|jp|me)\S*?/g, '')
+		txt = txt.replace(/"(.+?)"/g, '“$1”')
+		txt = txt.replace(/「(.+?)」/g, '“$1”')
+		txt = txt.replace(/“([^：，。？?!！…]+?)”/g, '「$1」')
+		TXTALL = txt
+		txt = txt.replace(/“([^“”]+)”/g, fn)
+
+		function fn(txt) {
+			DHBJ = {'♂': '♀','♀': '♂'}[DHBJ];
+			return txt.replace(/([，。！？：；…—])/g, DHBJ + '$1')
+		}
+		return txt
+	}
+		
+	function 章节(ts) {
+		var i, lj, bt, wb, fn, bk = '',v, zj;
+		if (!ZJBK) {
+			if (TXTALL) {
+				zj = TXTALL.match(/(第)([零〇一二三四五六七八九十百千万a-zA-Z0-9]{1,7})[章节卷集部篇回]((?! {4}).)((?!\t{1,4}).){0,30}\r?\n/g)
+			}
+			if (zj) {
+				v = zj.length;
+				for (i = 0; i < v; i++) {
+					wb = zj[i];
+					lj = en_URIC(wb);
+					fn = '章节进度';
+					bk += '<ee><a ' + fn + '("' + lj + '") >' + wb + '</a></ee> <br>'
+				}
+				ZJBK = bk.replace(/<a/g, '<a href=javascript:void(0) onclick=')
+			}
+		}
+		if(ts){
+		bt = (zj ? '' : '没有') + '章节';
+		swal({
+			title: bt,
+			text: 'a',
+			buttons: {
+				a: '跳页',
+				b: '下本',
+				c: '字数',
+				d: '关闭',
+			},
+		}).then(function(btn) {
+			switch (btn) {
+				case 'a':跳页();break;
+				case 'b':下一本();break;
+				case 'c':字数();break;
+			}
+		});
+		β('.swal-text').innerHTML = ZJBK || '';
+		}
+	}
+	
+		
+	function 说明() {
+		swal({title:'说明',text:SZ.说明})
+		}
+		
+	function 章节进度(kw) {
+		kw = de_URIC(kw)
+		var i, wb, iszj;
+		for (var i = FDZS; i > 0; i--) {
+			wb = TXTFD[i]
+			iszj = wb.indexOf(kw) > -1
+			if (iszj) {
+				FD = i;
+				进度();
+				nextReady = 0;
+				Player.src = 'about:blank';
+				return
+			}
+		}
+	}
+	
+
+	function 字数() {
+		var z, x;
+		x = TXTBOX.innerHTML;
+		if(x){x=x.match(/./g);x=x.length}
+		if(TXTALL){z=TXTALL.match(/./g);z=z.length}
+		x = x || 0;
+		z = z || x || 0;
+		swal({title:'统计字数',text: '总字数: '+z + '\n\r本页字数: '+ x })
+		}
+		
+	function 进度(progress) {
+		if (progress == null) {
+			progress = (FD / FDZS * 100).toFixed(2);
+			if(isNaN(progress)){progress = 0}
+			JDT.value = progress 
+			JD.innerHTML = progress + '%'
+			TXTBOX.innerHTML = TXTFD[FD].replace(/[♀♂]/g,'')
+		} else {
+			progress = (+progress).toFixed(2);
+			JDT.value = progress
+			JD.innerHTML = progress + '%'
+			FD = Math.floor(FDZS * progress*0.01);
+			TXTBOX.innerHTML = TXTFD[FD].replace(/[♀♂]/g,'');
+			nextReady = 0;
+			Player.src = 'about:blank';
+		}
+	}
+
+	function 书架(lx, k, m) {
+		lx = lx || 1;
+		var shelf = window.Shelf;
+		shelf?书架2(shelf):书架1()
+		
+		function 书架1() {
+			ajax({
+				type: 'GET',
+				url: Road + '/数据/阅读/bookshelf.json',
+				dataType: "text",
+				success: function(res) {
+					res = str2array(res)
+					res.sort(function(a, b) {
+						return a.name.localeCompare(b.name)
+					})
+					window.Shelf = res
+					m&&书架2(res)
+				}
+			})
+		}
+
+		function 书架2(res) {
+			var i, lj, wb, fn, lb, bk = '',
+				bt,
+				v = res.length;
+			for (i = k||0; i < v; i++) {
+				lb = res[i].group;
+				if (lx == lb) {
+					lj = res[i].bookUrl.replace(/\/storage\/emulated\/0\/无方幻我/, Road);
+					if(k!=null){请求(lj,lb,i);return}
+					wb = res[i].name;
+					fn = '请求';
+					bk += '<a "' + fn + '(&#039;' + lj + '&#039;,'+lb+','+i+')" >' + wb + '</a> <br>'
+				}
+			}
+			bk = bk.replace(/<a/g, '<a href=javascript:void(0) onclick=')
+			bt = (lx == 1) ? '短篇' : (lx == 2) ? '中篇' : (lx == 4) ? '长篇' : (lx == 16) ? '卫斯理' : (lx == 32) ? '原振侠' : '其他'
+			swal({
+				title: bt,
+				text: 'a',
+				buttons: {
+					a: {text: '短篇',closeModal: 0},
+					b: {text: '中篇',closeModal: 0},
+					c: {text: '长篇',closeModal: 0},
+					d: {text: '其他',closeModal: 0},
+					e: {text: '卫斯理',closeModal: 0},
+					f: {text: '原振侠',closeModal: 0},
+					h: '关闭',
+				},
+			}).then(function(btn) {
+				switch (btn) {
+					case 'a':书架(1);break;
+					case 'b':书架(2);break;
+					case 'c':书架(4);break;
+					case 'd':书架(8);break;
+					case 'e':书架(16);break;
+					case 'f':书架(32);break;
+					}
+			});
+			β('.swal-text').innerHTML = bk;
+		}
+	}
+	
+	
+	function 读取(f) {
+		var file = f.files[0],
+			kw = file.name,
+			istxt = /\.txt/i.test(kw);
+		istxt ? (文本(file),BT.innerHTML = kw.replace(/\.txt/i,'')) : 背音(kw);
+	}
+
+	function 文本(file) {
+		var r = new FileReader();
+		r.onload = function(e) {
+			var txt = e.target.result;
+			分段(txt)
+		}
+		r.readAsText(file, Charset);
+	}
+
+	function 请求(url,lb,i) {
+		var kw = url.replace(/^.*\//, ''),
+			istxt = /\.txt/i.test(kw);
+		if (!istxt) {
+			背音(kw);
+			return
+		}
+		ajax({
+			type: 'GET',
+			url: url,
+			dataType: "text",
+			mimeType: 'text/plain;charset=' + Charset,
+			success: function(txt) {
+				saveURL = url;
+				saveLB = lb;
+				saveI = i;
+				BT.innerHTML = kw.replace(/\.txt/i,'');
+				分段(txt)
+			}
+		})
+	}
+
+	function 系统语音(text) {
+		var synthesis = window.speechSynthesis;
+		var utterance = new SpeechSynthesisUtterance(text);
+		synthesis.speak(utterance);
+	}
+
+
+
+	function 打开(kw) {
+		kw = kw != null ? kw : (Exa=0,示例());
+		swal({
+			title: '打开文件',
+			content: {
+				element: 'zz',
+				attributes: {
+					innerHTML: 模板('textarea')
+				}
+			},
+			buttons: {
+				a: '打开',
+				b: '输入',
+				c: {text: '示例',closeModal: 0},
+				d: {text: '重载',closeModal: 1},
+				e: '确定',
+				f: {text: '清除',closeModal: 0},
+				g: '复制',
+				h: '关闭',
+			},
+		}).then(function(btn) {
+			var dm = α('输入框'),
+				url = dm.value;
+			switch (btn) {
+				case 'a':模拟点击(WJL);break;
+				case 'b':分段(url);break;
+				case 'c':kw = 示例();打开(kw);break;
+				case 'd':恢复();break;
+				case 'e':请求(url);break;
+				case 'f':打开('');α('输入框').focus();break;
+				case 'g':复制(dm);break;
+			}
+		});
+		α('输入框').value = de_ZY(kw);
+	};
+
+	function 示例() {
+		var i = Exa;
+		var url = Road+'/文本/小说/恐怖小说900本/',
+			kw = ['顺强突然察觉郑介铭说话的气场有些不对劲，开始警惕起来。“你说的很对啊，看来，如果沿着你的意思……僧多粥少，增加粥是一个解决方法，但如果粥增加不了，是不是只能减少僧呢？”郑介铭稍稍把语气又缓和了一点儿，隐藏着自己的杀气，问着，“那应该……先减少什么僧呢？”“当然是老弱病残！这些人应该先排除出去！”顺强说着，但不知道为什么，他的内心开始感觉到一丝奇怪的不安。“哦？老弱病残？你说说名字？应该排除掉哪些人呢？”郑介铭问。“那个谢武资！腿都已经不行了，留着干嘛？李轩？那个疯子！还有其他人……”顺强点了两个人的名字。“两个了，还有哪些其他人？”郑介铭冷冷的继续问。“还有……新加入的那几个全都应该排除出去，这个队伍里，如果由我来带，就只留下精兵强将！”顺强说着。“弱将也要排除？”郑介铭问，“比如那几个女人？”“……”顺强突然想到，自己老婆也算在其中。“你老婆，还有另外一个死了老公的大妈，平常好像除了没事儿活动活动腰腿，也没做什么事儿嘛？”“这……这个……也……也不是……”顺强结结巴巴，无言以对了。“而且……你……也没什么战斗力嘛！我看你平时也就是只能值班看守、当当苦力，苦力似乎也并不是那么有效率，倒是吃起东西来，你的量好像是所有人当中最大的？”郑介铭继续逼问。他将手不经意间放到了腰间，而顺强看见，他的腰间插着一把刀子。', url + '短篇/洞穴.txt', url + '中篇/小涛鬼话完整版.txt', url + '长篇/血色天堂.txt', url + '其他/丧尸之末日的背叛[校对版].txt', url + '集/李碧華短篇怪異小說.txt']
+		Exa++
+		if (Exa > 6) {
+			Exa = 0
+		}
+		return kw[i]
+	}
+
+	function 清屏() {
+		FD = 0;
+		FDZS = 0;
+		JD.value = 0;
+		nextReady = 0;
+		TXTALL = null
+		TXTFD = null
+		ZJBK = ''
+		TXTBOX.innerHTML = null;
+		AUD1.src = 'about:blank';
+		AUD2.src = 'about:blank';
+		VID1.src = 'about:blank';
+		VID2.src = 'about:blank';
+		
+	}
+	
+	function 默认() {
+		清屏()
+		BT.innerHTML = '朗读'
+		Charset = 'GBK'
+		NW = Timbre =  null
+		VOL = SPD = PIT = EMO = null
+		进度()
+		}
+
+	function 源站() {
+		var bk = 数组(SZ['源站'], '弹出');
+		swal({
+			title: '语音相关',
+			text: 'a',
+			buttons: {
+				a: '说明',
+				b: '主播',
+				c: '列表',
+				d: '关闭',
+			},
+		}).then(function(btn) {
+			switch (btn) {
+				case 'a':说明();break
+				case 'b':主播();break
+				case 'c':列表();break;
+				}
+		});
+		β('.swal-text').innerHTML = bk;
+		β('.swal-text').style = 'width:auto';
+	}
+	
+	
+	function 背音(kw) {
+		var url, sz = 分割 (kw)
+		if (sz[1]){
+			url = sz[1]
+			} else{
+				url = Road +'/音乐/听书背景音乐/'+ kw + '.mp3';
+				url = en_URI(url)
+		}
+		BGM = url;
+		musicPlayer.src = url;
+		musicPlayer.play();
+	}
+	
+	function 背音量() {
+		var v = BGMVL
+		v = v == 1 ? 0.25 : v == 0.25 ? 0.5:v == 0.5 ? 0.75:1;
+		musicPlayer.volume = v
+		var bt = v*100 +'%'
+		BGMVL = v
+		音乐('设定音量: ' + bt)
+	}
+
+	function 音乐(bt) {
+		bt = bt || '背景音乐'
+		var sz = SZ['音乐'],
+			lj, wb, i, v, fn, bk = '';
+		v = sz.length;
+		for (i = 0; i < v; i++) {
+			lj = sz[i];
+			if(lj!='|'){
+			wb = lj.replace(/\|.*/,'');
+			 lj = en_URI(lj);
+			fn = '背音';
+			bk += '<ee><a href=javascript:' + fn + '(&#039;' + lj + '&#039;) >' + wb + '</a></ee> <br>'
+			}
+		}
+		swal({
+			title: bt,
+			text: 'a',
+			buttons: {
+				a: {text: '开关',closeModal: 1},
+				b: {text: '音视',closeModal: 0},
+				c: {text: '音量',closeModal: 0},
+				d: '关闭',
+			},
+		}).then(function(btn) {
+			switch (btn) {
+				case 'a':音乐开关();break;
+				case 'b':音乐音视(1);break;
+				case 'c':背音量();break;
+			}
+		});
+		β('.swal-text').innerHTML = bk;
+	}
+
+	function 音乐开关() {
+		var ispause = musicPlayer.paused
+		ispause?musicPlayer.play():musicPlayer.pause()
+		ispause?写文(YYKG,'on'):写文(YYKG,'off')
+		}
+
+
+	function 切换内容(dom) {
+		var txt = dom.value;
+		var lx = 分割(NRLX.value)[0];
+		if (lx == '字数限制') {
+			txt = txt.replace(/字/, '');
+			var v = +txt;
+			NW = v;
+			txt = '';
+			for (var i = 0; i < v; i++) {
+				txt += '字'
+			}
+		}
+		TXTBOX.innerHTML = txt
+	}
+
+	function 下载(url,dom) {
+		dom = dom||Player;
+		url = url==null?dom.src:url;
+		swal({
+			title: dom.id,
+			content: {
+				element: 'zz',
+				attributes: {
+					innerHTML: 模板('textarea')
+				}
+			},
+			buttons: {
+				a: {text: '音乐',closeModal: 0},
+				b: {text: '播放',closeModal: 0},
+				c: {text: '代码',closeModal: 0},
+				d: {text: '弹出',closeModal: 0},
+				e: '确定',
+				f: {text: '清除',closeModal: 0},
+				g: '复制',
+				h: '关闭',
+			},
+		}).then(function(btn) {
+			var dm = α('输入框'),
+				url = dm.value;
+			switch (btn) {
+				case 'a':下载(null,musicPlayer);break;
+				case 'b':播放(url);break;
+				case 'c':代码(url);break;
+				case 'd':弹出(url);break;
+				case 'e':Player.src = url;Player.play();break;
+				case 'f':下载('');α('输入框').focus();break;
+				case 'g':复制(dm);break;
+			}
+		});
+		α('输入框').value = de_URIC(url);
+	}
+	
+
+	function 主播() {
+		var arr = 分割(PBLX.value)
+		var lx = arr[1];
+		var url = arr[3];
+		ajax({url:url,success:fn})
+		function fn(res) {
+			alert(res)
+			prompt(lx,res)
+			}
+	}
+		
+	function 列表(type) {
+		var arr = 分割(PBLX.value)
+		var lx = arr[1];
+		var bk = '',
+			wb, val, k, v = 17,
+			pid = arr[2],
+			sr = 32000,
+			cd, na, dc,
+			i = 0,
+			sz = SZ[lx];
+		if (!type) {
+			for (k in sz) {
+				cd = sz[k]
+				na = lx=='原神'?cd:k
+				bk += (i ? ',' : '') + '{"id":' + (v * 1000 + i) + ',"groupId":' + v + ',"displayName":"' + na + '","readAloudTarget":1,"tts":{"#type":"plugin","pluginId":"' + pid + '","locale":"zh-CN","voice":"' + cd + '","pitch":50,"volume":50,"rate":50,"audioFormat":{"sampleRate":' + sr + '}}}'
+				i++;
+			}
+			bk = '{"group":{"id":' + v + ',"name":"' + lx + ' [插件|在线]","order":30,"isExpanded":true},"list":[' + bk + ']}'
+		} else {
+			for (k in sz) {
+				cd = sz[k]
+				na = (lx=='原神'?cd:k).replace(/\[.+\]/, '')
+				dc = (lx=='原神'?cd:k).match(/\[(.+)\]/)
+				dc = dc?dc[1]:''
+				bk += "- !!org.nobody.multitts.tts.speaker.Speaker\n  avatar: ''\n  code: " + cd + "\n  desc: " + dc + "\n  gender: 0\n  name: " + na + "\n  param: ''\n  sampleRate: " + sr + "\n  speed: 1.0\n  type: 1\n  volume: 1.0\n"
+			}
+		}
+		prompt ('主播去重',PB.innerHTML)
+		swal({
+			title: (type ? 'mulitts' : 'tts server') + '列表',
+			content: {
+				element: 'zz',
+				attributes: {
+					innerHTML: 模板('textarea')
+				}
+			},
+			buttons: {
+				a: '切换',
+				f: {text: '清除',closeModal: 0},
+				g: '复制',
+				h: '关闭',
+			},
+		}).then(function(btn) {
+			var dm = α('输入框'),
+				url = dm.value;
+			switch (btn) {
+				case 'a':列表(type ? 0 : 1);break;
+				case 'f':打开('');α('输入框').focus();break;
+				case 'g':复制(dm);break;
+			}
+		});
+		α('输入框').value = bk;
+	}
+	
+
+	function 验证码(url, callback, ref) {
+		if(ref){
+		var bk = '<iframe id = "验证窗"></iframe>'+模板('input');
+		} else {
+		var bk = '<a href =  "'+url+'" ><img src = "'+url+'" ></img></a>'+模板('input');
+		}
+		
+		swal({
+			title: '输入验证码',
+			content: {
+				element: 'zz',
+				attributes: {innerHTML : bk}
+			},
+			buttons: {
+				a: '确定',
+				d: '关闭',
+			},
+		}).then(function(btn) {
+			var dm = α('输入框'),
+				kw = dm.value;
+			switch (btn) {
+				case 'a':callback(kw);break;
+				}
+		});
+		
+		if(ref){
+			var ifr = α('验证窗');
+			ifr.onload = fn1;
+			ifr.src = ref;
+			}
+			
+		function fn1(){
+			ifr.onload = null;
+			var win = ifr.contentWindow,
+			doc = win.document.body;
+			doc.innerHTML = '<img src = "'+url+'" ></img>'
+			}
+	}
+	
+	function 加载主项(arr, obj) {
+		var bk = '', sz , v = arr.length,
+			wb, val, i;
+			for (i = 0; i < v; i++) {
+				val = arr[i];
+				sz = 分割(val);
+				wb = sz[0];
+				val = val.replace(/\(.*\)/,'');
+				bk += '<option value = "' + val + '" ><span>' + i + '.' + wb + '</span></option>'
+				}
+				obj.innerHTML = bk;
+		}
+	
+	function 加载选项(dom, obj) {
+		var lx = 分割(dom.value);
+		lx = lx[1]||lx[0];
+		var bk = '',
+			wb, val, k = 0,
+			i, sz = SZ[lx];
+		for (i in sz) {
+			val = sz[i];
+			wb = k + '.' + (obj == NR||lx=='原神' ? sz[i] : i);
+			bk += '<option value = "' + val + '" >' + wb + '</option>'
+			k++
+		}
+		obj.innerHTML = bk;
+	}
+	
+	
+	function 跳页(pg) {
+		if(pg == null){pg = FD}
+		swal({
+			title:'跳页 (共'+FDZS+')页',
+			content: {
+				element: 'zz',
+				attributes: {innerHTML : 模板('input')}
+			},
+			buttons: {
+				a: {text: '确定',closeModal: 1},
+				b: {text: '上页',closeModal: 0},
+				c: {text: '下页',closeModal: 0},
+				l: '关闭',
+			},
+		}).then(function(btn) {
+			var dm = α('输入框');
+			pg = dm.value;
+			if (字符('%', pg)) {
+				pg = pg.replace(/%/, '');
+				pg = pg * FDZS * 0.01;
+				pg = Math.floor(pg)
+			} else {
+				pg = +pg
+			}
+			switch (btn) {
+				case 'a':FD = pg;进度();nextReady = 0;
+			Player.src = 'about:blank';break;
+				case 'b':跳页(pg-1);break;
+				case 'c':跳页(pg+1);break;
+			}
+		});
+		α('输入框').value = pg;
+	}
+	
+	function 上一页() {
+		FD = FD-1;
+		进度();
+		nextReady = 0;
+		}
+		
+	function 下一页() {
+		FD = FD+1;
+		进度();
+		nextReady = 0;
+		}
+	
+	function 选择主播(a, b, c, d, e, f) {
+		选择(PBLX, a)
+		选择(DH1LX, b)
+		选择(DH2LX, c)
+		选择(PB, d)
+		选择(DH1, e)
+		选择(DH2, f)
+	};
+	
+
+	function 解码(ts) {
+		JXLX = {'auto':'ab2blob','ab2blob':'ab2base64','ab2base64':'blob2base64','blob2base64':'base642blob','base642blob':'auto'}[JXLX]
+		DATALX =( JXLX =='auto'||JXLX =='blob2base64')?'blob':'arrayBuffer'
+		if(!ts)return;
+		设置('解析: ' + JXLX)
+	}
+
+	function 编码() {
+		Charset = Charset == 'GBK' ? 'UTF-8' : 'GBK';
+		设置('编码类型: ' + Charset)
+	}
+	
+	
+	function 音质() {
+		Timbre = Timbre == '高品质' ? '低品质' : '高品质';
+		设置('设定音质: ' + Timbre)
+	}
+	
+	function 路径() {
+		Roadlx = Roadlx?0:1;
+		Road = Roadlx?'file:///sdcard/无方幻我':'..';
+		设置(Roadlx?'绝对路径':'相对路径')
+	}
+	
+	function 音乐音视(ts) {
+		if(ts){
+		mPlayerlx = (mPlayerlx == '音频') ? '视频' : '音频';
+		}
+		if (mPlayerlx == '音频') {
+			musicPlayer = AUD3
+		} else {
+			musicPlayer = VID3
+		}
+		AUD3.src = 'about:blank';
+		VID3.src = 'about:blank';
+		ts&&音乐('切换到:' + musicPlayer.id)
+	}
+	
+	function 音视(ts) {
+		if(ts){
+		Playerlx = (Playerlx == '音频') ? '视频' : '音频';
+		}
+		if (Playerlx == '视频') {
+			AUDS.style.display = 'none'
+			VIDS.style.display = ''
+			if (Player == AUD1) {
+				Player = VID1;
+				Player1 = VID2;
+			} else {
+				Player = VID2;
+				Player1 = VID1;
+			}
+		} else {
+			VIDS.style.display = 'none'
+			AUDS.style.display = ''
+			if (Player == VID2) {
+				Player = AUD2;
+				Player1 = AUD1;
+			} else {
+				Player = AUD1;
+				Player1 = AUD2;
+			}
+		}
+		AUD1.src = 'about:blank';
+		AUD2.src = 'about:blank';
+		VID1.src = 'about:blank';
+		VID2.src = 'about:blank';
+		nextReady = 0;
+		ts&&设置('切换到:' + Player.id)
+	}
+	
+	function 切换() {
+		if (Playerlx == '音频') {
+			if (Player == AUD1) {
+				Player = AUD2;
+				Player1 = AUD1;
+			} else {
+				Player = AUD1;
+				Player1 = AUD2;
+			}
+		} else {
+			if (Player == VID1) {
+				Player = VID2;
+				Player1 = VID1;
+			} else {
+				Player = VID1;
+				Player1 = VID2;
+			}
+		}
+	
+		显隐(AUD1)
+		显隐(AUD2)
+		显隐(VID1)
+		显隐(VID2)
+	}
+	
+	function 均衡(dom) {
+		var a = dom.id;
+		var b = dom.value;
+		window[a] = b;
+		var na = dom.name;
+		β('.swal-title').innerHTML =  na +': '+ b;
+	}
+
+	function 设置(bt) {
+		bt = bt || '朗读设置';
+		var bk1 = '音量: <input id = "VOL" name = "音量" onchange = "均衡(this)" type="range" value = ' + VOL + ' min=0 max=100 /><br>语速: <input id = "SPD" name = "语速" onchange = "均衡(this)" type="range" value = ' + SPD + ' min=0 max=100 />';
+		var bk2 = ff.st.xp? '' :'<br>语调: <input id = "PIT"  name = "语调" onchange = "均衡(this)" type="range" value = ' + PIT + ' min=0 max=100 /><br>语气: <input id = "EMO"  name = "语气" onchange = "均衡(this)" type="range" value = ' + EMO + ' min=0 max=100 />';
+		var bk3 = '<br>主播:<br> ',wb, i, sz=SZ.引擎, n = sz.length;
+		for (i = 0; i < n; i++) {
+		wb = sz[i];
+		bk3 += '<ee><a onclick = 切换主播("'+wb+'") >'+wb+'</a></ee> '
+		}
+		var bk = bk1+bk2+bk3
+		swal({
+			title: bt,
+			text: 'a',
+			buttons: {
+				a: {text: '主播',closeModal: 0},
+				b: {text: '音视',closeModal: 0},
+				c: {text: '解码',closeModal: 0},
+				d: {text: '编码',closeModal: 0},
+				e: {text: '音质',closeModal: 0},
+				f: {text: '路径',closeModal: 0},
+				g: '默认',
+				h: '关闭',
+			},
+		}).then(function(btn) {
+			switch (btn) {
+				case 'a':切换主播('默认');break;
+				case 'b':音视(1);break;
+				case 'c':解码(1);break;
+				case 'd':编码();break;
+				case 'e':音质();break;
+				case 'f':路径();break;
+				case 'g':默认();break;
+			}
+		});
+		β('.swal-text').innerHTML = bk;
+	}
+
+	function 储存() {
+			if(!saveURL)return;
+			var save = {};
+			save.zblx = ZBLX;
+			save.playerlx = Playerlx;
+			save.mplayerlx = mPlayerlx;
+			save.charset = Charset;
+			save.bgm = BGM;
+			save.bgmvl = BGMVL;
+			save.url = saveURL;
+			save.lb = saveLB;
+			save.i = saveI;
+			save.nw = saveNW;
+			save.jd = JDT.value;
+			save.MttsYzm = window.MttsYzm;
+			save.mkYzm = window.mkYzm;
+			save.mkUuid = window.mkUuid;
+			save = json2str(save);
+			localStorage.setItem('bookshelf', save);
+		}
+	
+	function 恢复() {
+		var save = localStorage.getItem('bookshelf');
+		save = JSON.parse(save) || {};
+		ZBLX = save.zblx||'默认';
+		切换主播()
+		Playerlx = save.playerlx || '音频';
+		音视()
+		mPlayerlx = save.mplayerlx || '音频';
+		音乐音视()
+		Charset = save.charset || 'GBK';
+		BGM = save.bgm||'file:///sdcard/无方幻我/音乐/听书背景音乐/童年-班得瑞.mp3';
+		BGMVL = save.bgmvl || 0.25;
+		var url = save.url
+		if(!url) return;
+		NW = NW || save.nw
+		saveLB = +save.lb;
+		saveI = +save.i
+		window.MttsYzm = save.MttsYzm
+		window.mkYzm = save.mkYzm;
+		window.mkUuid = save.mkUuid;
+		请求(url,saveLB,saveI)
+		setTimeout(fn, 1000);
+		function fn() {
+			进度(save.jd)
+			setTimeout(章节, 1000);
+		}
+	}
+
+	window.onload = function() {
+		准备播放()
+		检测平台()
+		检测内核()
+		加载主项(SZ['内容'], NRLX)
+		加载主项(SZ['主播'], PBLX)
+		加载主项(SZ['主播'], DH1LX)
+		加载主项(SZ['主播'], DH2LX)
+		加载选项(NRLX, NR);
+		恢复();
+		setTimeout(书架, 1000);
+	}
+	
+</script>
+
+</html>
