@@ -197,8 +197,8 @@ audio,video{height:35px}
 </body>
 <script src = js/ff.js ></script>
 <script src = bk/语音.js ></script>
-<script src = bk/引擎.js async ></script>
-<script src = js/ajax.js async ></script>
+<script src = bk/引擎.js ></script>
+<script src = js/ajax.js ></script>
 <script src = js/sweetalert.min.js async ></script>
 <script src = bk/引擎试验.js async ></script>
 
@@ -241,21 +241,13 @@ audio,video{height:35px}
 
 	function 准备播放(bf) {
 		try {
-			AUD1.play()
 			AUD2.play()
-			AUD3.play()
-			VID1.play()
 			VID2.play()
-			VID3.play()
-			AUD1.pause()
-			AUD2.pause()
-			AUD3.pause()
-			VID1.pause()
-			VID2.pause()
-			VID3.pause()
 		} catch (e) {}
 		if(!bf) return;
+		try {
 		setTimeout(fn, 1000);
+		} catch (e) {}
 		function fn() {
 			window.readyplay = 1;
 			α('试听').href = 'javascript:试听()'
@@ -501,13 +493,12 @@ audio,video{height:35px}
 				type: 'GET',
 				url: Road + '/数据/阅读/bookshelf.json',
 				dataType: "text",
+				error:1,
 				success: function(res) {
-					res = str2array(res)
-					res.sort(function(a, b) {
-						return a.name.localeCompare(b.name)
-					})
-					window.Shelf = res
-					m&&书架2(res)
+					var arr = str2array(res)
+					排序(arr)
+					window.Shelf = arr
+					m&&书架2(arr)
 				}
 			})
 		}
@@ -583,6 +574,7 @@ audio,video{height:35px}
 			url: url,
 			dataType: "text",
 			mimeType: 'text/plain;charset=' + Charset,
+			error:1,
 			success: function(txt) {
 				saveURL = url;
 				saveLB = lb;
@@ -637,16 +629,6 @@ audio,video{height:35px}
 		α('输入框').value = de_ZY(kw);
 	};
 
-	function 示例() {
-		var i = Exa;
-		var url = Road+'/文本/小说/恐怖小说900本/',
-			kw = ['顺强突然察觉郑介铭说话的气场有些不对劲，开始警惕起来。“你说的很对啊，看来，如果沿着你的意思……僧多粥少，增加粥是一个解决方法，但如果粥增加不了，是不是只能减少僧呢？”郑介铭稍稍把语气又缓和了一点儿，隐藏着自己的杀气，问着，“那应该……先减少什么僧呢？”“当然是老弱病残！这些人应该先排除出去！”顺强说着，但不知道为什么，他的内心开始感觉到一丝奇怪的不安。“哦？老弱病残？你说说名字？应该排除掉哪些人呢？”郑介铭问。“那个谢武资！腿都已经不行了，留着干嘛？李轩？那个疯子！还有其他人……”顺强点了两个人的名字。“两个了，还有哪些其他人？”郑介铭冷冷的继续问。“还有……新加入的那几个全都应该排除出去，这个队伍里，如果由我来带，就只留下精兵强将！”顺强说着。“弱将也要排除？”郑介铭问，“比如那几个女人？”“……”顺强突然想到，自己老婆也算在其中。“你老婆，还有另外一个死了老公的大妈，平常好像除了没事儿活动活动腰腿，也没做什么事儿嘛？”“这……这个……也……也不是……”顺强结结巴巴，无言以对了。“而且……你……也没什么战斗力嘛！我看你平时也就是只能值班看守、当当苦力，苦力似乎也并不是那么有效率，倒是吃起东西来，你的量好像是所有人当中最大的？”郑介铭继续逼问。他将手不经意间放到了腰间，而顺强看见，他的腰间插着一把刀子。', url + '短篇/洞穴.txt', url + '中篇/小涛鬼话完整版.txt', url + '长篇/血色天堂.txt', url + '其他/丧尸之末日的背叛[校对版].txt', url + '集/李碧華短篇怪異小說.txt']
-		Exa++
-		if (Exa > 6) {
-			Exa = 0
-		}
-		return kw[i]
-	}
 
 	function 清屏() {
 		FD = 0;
@@ -828,7 +810,7 @@ audio,video{height:35px}
 		var bk = '',
 			wb, val, k, v = 17,
 			pid = arr[2],
-			sr = 32000,
+			sr = 16000,
 			cd, na, dc,
 			i = 0,
 			sz = SZ[lx];
@@ -849,7 +831,7 @@ audio,video{height:35px}
 				bk += "- !!org.nobody.multitts.tts.speaker.Speaker\n  avatar: ''\n  code: " + cd + "\n  desc: " + dc + "\n  gender: 0\n  name: " + na + "\n  param: ''\n  sampleRate: " + sr + "\n  speed: 1.0\n  type: 1\n  volume: 1.0\n"
 			}
 		}
-		prompt ('主播去重',PB.innerHTML)
+		//prompt ('主播去重',PB.innerHTML)
 		swal({
 			title: (type ? 'mulitts' : 'tts server') + '列表',
 			content: {
@@ -1186,8 +1168,10 @@ audio,video{height:35px}
 		请求(url,saveLB,saveI)
 		setTimeout(fn, 1000);
 		function fn() {
-			进度(save.jd)
-			setTimeout(章节, 1000);
+			try {
+				进度(save.jd)
+				setTimeout(章节, 1000);
+			} catch (e) {}
 		}
 	}
 
