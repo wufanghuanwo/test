@@ -918,8 +918,17 @@
 	function en_MD5(str) {return CryptoJS.MD5(str)};
 	function de_MD5(str) {return CryptoJS.MD5.parse(str)};
 	
-	function en_base64(str) {return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(str))};
-	function de_base64(str) {return CryptoJS.enc.Base64.parse(str).toString(CryptoJS.enc.Utf8)};
+	function en_base64(str) {
+	    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(match, p1) {
+	        return String.fromCharCode('0x' + p1);
+	    }));
+	}
+
+	function de_base64(str) {
+	    return decodeURIComponent(atob(str).split('').map(function(c) {
+	        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+	    }).join(''));
+	}
 	
 	function en_Unicode(str) {
 		var value = '';
@@ -1193,6 +1202,16 @@
 		return str;
 	}
 
+	//数组反转 数组去重 数组排序
+
+	function 反转(arr) {
+	    var i, sz = {};
+	    for (i in arr) {
+	        sz[arr[i]]= i
+	    }
+	    return sz
+	}
+	
 	function 去重(arr) {
 		var hash = [];
 		for (var i = 0; i < arr.length; i++) {
@@ -1202,6 +1221,12 @@
 			hash.push(arr[i]);
 		}
 		return hash;
+	}
+	
+	function 排序(arr) {
+	    arr.sort(function(a, b) {
+	        return a.name.localeCompare(b.name)
+	    })
 	}
 	
 	//生成从x到y的随机数,z位数
@@ -1262,6 +1287,7 @@
 			return array 
 		}
 	};
+	
 	
 	function 正则() {
 		var x, y, z ,i;
