@@ -1141,6 +1141,8 @@ audio,video{height:35px}
 			save.MttsYzm = window.MttsYzm;
 			save.mkYzm = window.mkYzm;
 			save.mkUuid = window.mkUuid;
+			save.MsArea = window.MsArea;
+			save.MsToken = window.MsToken;
 			save = json2str(save);
 			localStorage.setItem('bookshelf', save);
 		}
@@ -1165,6 +1167,8 @@ audio,video{height:35px}
 		window.MttsYzm = save.MttsYzm
 		window.mkYzm = save.mkYzm;
 		window.mkUuid = save.mkUuid;
+		window.MsArea = save.MsArea;
+		window.MsToken = save.MsToken;
 		请求(url,saveLB,saveI)
 		setTimeout(fn, 1000);
 		function fn() {
