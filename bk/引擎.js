@@ -18,15 +18,6 @@
 		朗读(url)
 	}
 	
-	function 搜诡(text, voice, volume, speed, pitch) {
-		text = encodeURIComponent(text)
-		text = text.replace(/\%00/g,'')
-		speed = speed || 50 ;
-		volume = volume || 50;
-		var url = 'http://home.genesisvm.top:8774/forward?speaker='+voice+'&speed=' + speed +'&volume=' + volume + '&text='+text
-		朗读(url)
-	}
-	
 	/*
 	length：语速,范围0.5-2,默认为1
 	sdp：此值越大则语气波动越强烈,但可能偶发出现语调奇怪,范围0-1,默认为0.4
@@ -78,9 +69,6 @@
 		朗读(url)
 	}
 	
-
-	
-
 //==============复杂请求==============
 
 	function 百度(text, voice, volume, speed, pitch) {
@@ -425,7 +413,6 @@
 				dataType: 'text',
 				error: geturl,
 				success: function(res) {
-					//alert(res)
 					res = str2json(res)
 					var url = res.data.file_link
 					朗读(url)
@@ -472,51 +459,11 @@
 	}
 
 
-	function 慧言(text, voice, volume, speed, pitch) {
-		speed = ((speed || 50) * 0.015 + 0.5).toFixed(1);
-		pitch = ((pitch || 50) * 0.02 - 1).toFixed(1);
-		volume = volume || 100;
-		voice = 分割(voice)
-		var vid = voice[0]
-		var lang = voice[1]
-		var reqUrl = 'https://api.ai.huiyan-tech.com/experience/tts'
-		var body = {
-			'text': text,
-			'lang_type': lang,
-			'format': 'mp3',
-			'sample_rate': 16000,
-			'voice': vid,
-			'volume': volume,
-			'speech_rate': 1,
-			'pitch_rate': 0
-		}
-		var headers = {
-			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-		}
-		geturl()
-
-		function geturl() {
-			ajax({
-				type: 'POST',
-				url: reqUrl,
-				data: JSON.stringify(body),
-				conType: 'text',
-				dataType: 'text',
-				error: geturl,
-				success: function(res) {
-					res = str2json(res)
-					var url = 'data:audio/mpeg;base64,' + res.data
-					解析(url)
-				}
-			})
-		}
-	}
-	
 	
 	function 火山(text, voice, volume, speed, pitch) {
-		speed = ((speed || 50) * 0.02).toFixed(1);
-		pitch = ((pitch || 50) * 0.02).toFixed(1);
-		volume = ((volume || 50) * 0.02).toFixed(1);
+		speed = +((speed || 50) * 0.02).toFixed(1);
+		pitch = +((pitch || 50) * 0.02).toFixed(1);
+		volume = +((volume || 50) * 0.02).toFixed(1);
 		var uuid = UUID();
 		var reqUrl = 'wss://openspeech.bytedance.com/api/v1/tts/ws_binary'
 		var body = {
@@ -529,20 +476,20 @@
 				'uid': 'uid'
 			},
 			'audio': {
-				'voice_type': voice,
 				'speed_ratio': speed,
 				'volume_ratio': volume,
 				'pitch_ratio': pitch,
 				'encoding': 'mp3',
-				'silence_duration': 125,
-				"language": "cn"
+				'rate':24000,
+				'voice_type': voice
 			},
 			'request': {
 				'reqid': uuid,
 				'text': text,
 				'text_type': 'plain',
-				'voice_type': voice,
-				'operation': 'query'
+				'operation': 'query',
+				'silence_duration': 125,
+				'voice_type': voice
 			}
 		}
 
@@ -618,7 +565,6 @@
 				dataType: 'text',
 				error: gettoken,
 				success: function(res) {
-					//alert(res)
 					res = str2json(res)
 					var url = res.audio
 					if (url) {
@@ -638,9 +584,7 @@
 				dataType: 'text',
 				error: 1,
 				success: function(res) {
-					//alert(res)
 					token = res.match(/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/)
-						//alert(token)
 					window.linyunToken = token
 					geturl()
 				}
@@ -686,6 +630,44 @@
 		}
 	}
 
+	function 慧言(text, voice, volume, speed, pitch) {
+		speed = ((speed || 50) * 0.015 + 0.5).toFixed(1);
+		pitch = ((pitch || 50) * 0.02 - 1).toFixed(1);
+		volume = volume || 100;
+		var reqUrl = 'https://api.huiyan-tech.com/v1/trial/tts/api'
+		var body = {
+			'text': text,
+			'lang_type': 'zh-cmn-Hans-CN',
+			'format': 'mp3',
+			'sample_rate': 16000,
+			'voice': voice,
+			'volume': volume,
+			'speech_rate': 1,
+			'pitch_rate': 0
+		}
+		var headers = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+		}
+		geturl()
+
+		function geturl() {
+			ajax({
+				type: 'POST',
+				url: reqUrl,
+				data: body,
+				conType: 'json',
+				dataType: 'text',
+				error: geturl,
+				success: function(res) {
+					//alert(res)
+					res = str2json(res)
+					var url = 'data:audio/mpeg;base64,' + res.data.result
+					解析(url)
+				}
+			})
+		}
+	}
+	
 
 	function 搜狗(text, voice, volume, speed, pitch) {
 		speed = (0.7 + ((speed || 50) * 0.006)).toFixed(2);
@@ -881,9 +863,6 @@
 		}
 	}
 
- //https://voice.hmianw.com/api/ra
- //http://www.xylsok.com/api/ra
-
 	function 大声(text, voice, volume, speed, pitch) {
 		speed = (speed || 50) - 50;
 		volume = volume || 100;
@@ -959,6 +938,82 @@
 		}
 	}
 
+
+	//微软翻译
+	function 微译(text, voice, volume, speed, pitch) {
+		speed = (speed || 50) - 50;
+		volume = volume || 100;
+		pitch = (pitch || 50) - 50;
+		var format = Timbre == '高品质' ? 'audio-24khz-48kbitrate-mono-mp3' : 'audio-16khz-32kbitrate-mono-mp3';
+		var ssml = '<speak version="1.0" xml:lang="zh-CN"><voice name="' + voice + '"><prosody rate="' + speed + '%" pitch="' + pitch + '%" volume="' + volume + '">' + text + '</prosody></voice></speak>'
+		var area = window.MsArea, 
+		token = window.MsToken;
+		
+		area?geturl():gettoken()
+		
+		function getsign() {
+			var guid = UUID().replace(/\-/g,'');
+			var date = new Date().toGMTString();
+			date = de_Aa(date.replace(/ GMT/,'gmt'))
+			var message = 'mstranslatorandroidappdev.microsofttranslator.com%2fapps%2fendpoint%3fapi-version%3d1.0' + date + guid
+			var key = CryptoJS.enc.Base64.parse('oik6PdDdMnOXemTbwvMn9de/h9lFnfBaCWbGMMZqqoSaQaqUOqjVGm5NqsmjcBI1x+sS9ugjB55HEJWRiFXYFw==')
+			//alert(key)
+			var signatureSha = CryptoJS.HmacSHA256(message, key)
+			var signBase64 = CryptoJS.enc.Base64.stringify(signatureSha)
+			var sign = 'MSTranslatorAndroidApp::' + signBase64 + '::' + date + '::' + guid
+			return sign
+		}
+	
+	function gettoken() {
+			加载('js/CryptoJS.min.js', gettoken)
+			if (!ff.jz.CryptoJS) return;
+			var sign = getsign();
+			var tokenUrl = 'https://dev.microsofttranslator.com/apps/endpoint?api-version=1.0';
+			var tokenheaders = {
+				'X-ClientVersion': '4.0.530a 5fe1dc6c',
+				'X-UserId': '0f04d16a175c411e',
+				'X-MT-Signature': sign
+			};
+			ajax({
+				type: 'POST',
+				url: tokenUrl,
+				headers: tokenheaders,
+				dataType: 'text',
+				error: gettoken,
+				success: function(res) {
+					res = str2json(res)
+					area = res.r
+					token = res.t
+					window.MsArea = area;
+					window.MsToken = token;
+					geturl()
+				}
+			})
+		}
+		
+		function geturl() {
+			var reqUrl = 'https://' + area+ '.tts.speech.microsoft.com/cognitiveservices/v1'
+			var headers = {
+			'Authorization': token,
+			'Content-Type': 'application/ssml+xml',
+			'X-Microsoft-OutputFormat': format,
+		}
+			ajax({
+				type: 'POST',
+				url: reqUrl,
+				data: ssml,
+				headers: headers,
+				conType: 'xml',
+				error: gettoken,
+				dataType: DATALX,
+				success: function(res) {
+					解析(res)
+				}
+			})
+		}
+	}
+
+	
 
 	function 微硬(text, voice, volume, speed, pitch) {
 		speed = (speed || 50) - 50;
