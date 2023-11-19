@@ -28,7 +28,7 @@
 	function 原神(text, voice, volume, speed, pitch) {
 		text = encodeURIComponent(text)
 		text = text.replace(/\%00/g,'')
-		voice = encodeURIComponent(voice)
+		voice = voice + '_ZH'
 		speed = (2 - (speed || 65)* 0.015 ).toFixed(1) ;
 		var format = Timbre == '高品质' ? 'wav':'mp3',
 		url = 'https://genshinvoice.top/api?speaker='+voice+'&format='+format+'&language=ZH&length='+speed+'&sdp=0.4&noise=0.2&noisew=0.8&text='+text
@@ -41,6 +41,7 @@
 		speed = ((speed || 50 )* 0.015 + 0.5).toFixed(1);
 		pitch = ((pitch || 50)* 0.2 - 10 ).toFixed(1);
 		volume = ((volume  || 100)* 0.005 + 0.5).toFixed(1);
+		voice = voice + '_lpcnet'
 		var url = 'https://ai.chumenwenwen.com/tts/audios?speed='+speed + '&volume=' + volume +'&pitch='+pitch+'&speaker='+voice+'&audio_type=mp3&rate=24000&product=ai_platform&text=' + text
 		朗读(url)
 	}
@@ -464,6 +465,7 @@
 		speed = +((speed || 50) * 0.02).toFixed(1);
 		pitch = +((pitch || 50) * 0.02).toFixed(1);
 		volume = +((volume || 50) * 0.02).toFixed(1);
+		voice = voice + '_streaming'
 		var uuid = UUID();
 		var reqUrl = 'wss://openspeech.bytedance.com/api/v1/tts/ws_binary'
 		var body = {
@@ -552,6 +554,7 @@
 		text = text.replace(/\%00/g,'')
 		speed = Math.floor((speed || 50) * 0.08 + 1);
 		volume = Math.floor((volume || 100) * 0.08 + 1);
+		voice = voice + '_common'
 		var token = window.linyunToken;
 		token ? geturl() : gettoken();
 
@@ -605,7 +608,7 @@
 		var body = {
 			'authorization': 'YXBwX2lkOjlDN0Q2M0EyMjVBMjQxQ0Y4MjIwMjEwMTE1MTAzMjI3LHRzOjE2ODMxNjYyNzMyODksc2lnbmF0dXJlOnVWcDlEVnduWmg5YmFaWWV1L0t4NGhLNFVmVT0%3D',
 			'text': text,
-			'voice': voice,
+			'voice': 'voice_' + voice,
 			'speed': speed,
 			'pitch': pitch,
 			'volumn': volume,
@@ -633,7 +636,7 @@
 	function 慧言(text, voice, volume, speed, pitch) {
 		speed = ((speed || 50) * 0.015 + 0.5).toFixed(1);
 		pitch = ((pitch || 50) * 0.02 - 1).toFixed(1);
-		volume = volume || 100;
+		volume = volume || 50;
 		var reqUrl = 'https://api.huiyan-tech.com/v1/trial/tts/api'
 		var body = {
 			'text': text,
@@ -1133,8 +1136,8 @@
 	function 马克(text, voice, volume, speed, pitch) {
 		speed = ((speed || 50) * 0.08 + 1).toFixed(1);
 		volume = ((volume || 100) * 0.008 + 1).toFixed(2);
-		var uuid = window.mkUuid;
-		var token = window.mkYzm;
+		var uuid = window.MkUuid;
+		var token = window.MkYzm;
 		
 		token ? geturl() : gettoken();
 
@@ -1178,13 +1181,13 @@
 
 		function gettoken() {
 			uuid = UUID();
-			var reqUrl = 'https://ttsmaker.cn/get_captcha?uuid='+uuid+'&rand=690762'
+			var reqUrl = 'https://ttsmaker.cn/get_captcha?uuid='+uuid+'&rand=706742&reload='+Math.floor(Math.random()*999+1)
 			验证码(reqUrl, fn)
 
 			function fn(yzm) {
 				token = yzm
-				window.mkUuid = uuid
-				window.mkYzm = yzm
+				window.MkUuid = uuid
+				window.MkYzm = yzm
 				text && geturl()
 			}
 		}
