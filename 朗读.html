@@ -232,8 +232,8 @@ audio,video{height:35px}
 	VID2 = α('视频朗读器2'),
 	VID3 = α('视频音乐播放器'),
 	AUD3 = α('音频音乐播放器'),
-	Road = '..', Roadlx, VOL, SPD, PIT, EMO, NW, nextReady, JXLX='auto',DATALX='blob',directPlay,Timbre,saveURL,saveLB,saveI,saveNW,BGM,BGMVL,DHBJ = '♀',ZBLX,
-	TXTALL, TXTFD, FD, FDZS, ZJBK, nextUrl, usedUrl,mPlayerlx, musicPlayer = AUD3, Player=AUD1, Player1=AUD2, Playerlx = '音频',Exa=0,Charset = 'GBK';
+	Road = '..', Roadlx, VOL, SPD, PIT, EMO, WordNum, nextReady, JXLX='auto',DATALX='blob',directPlay,Timbre,NovelUrl,NovelLB,NovelNum,PageWordNum,Bgm,BgmVL,DHBJ = '♀',VoiceLX,
+	TXTALL, TXTFD, FD, FDZS, ZJBK, nextUrl, usedUrl,MusicPlayerLX, musicPlayer = AUD3, Player=AUD1, Player1=AUD2, PlayerLX = '音频',Exa=0,Charset = 'GBK';
 	
 
 	
@@ -243,6 +243,8 @@ audio,video{height:35px}
 		try {
 			AUD2.play()
 			VID2.play()
+			AUD2.pause()
+			VID2.pause()
 		} catch (e) {}
 		if(!bf) return;
 		try {
@@ -252,8 +254,8 @@ audio,video{height:35px}
 			window.readyplay = 1;
 			α('试听').href = 'javascript:试听()'
 			试听();
-			musicPlayer.src = BGM;
-			musicPlayer.volume= BGMVL;
+			musicPlayer.src = Bgm;
+			musicPlayer.volume= BgmVL;
 			音乐开关();
 		}
 	}
@@ -326,7 +328,7 @@ audio,video{height:35px}
 		if(FD==FDZS){ 下一本();return;}
 		if (!nextUrl) return
 		var rd = Player1.readyState
-		rd?fn():setTimeout(播放下一段, 250);
+		rd?fn():setTimeout(播放下一段, 500);
 		
 		function fn() {
 			nextReady = 0
@@ -334,7 +336,7 @@ audio,video{height:35px}
 			FD++;
 			进度()
 			切换()
-			setTimeout(fn1, 250);
+			setTimeout(fn1, 500);
 			}
 			
 		function fn1() {
@@ -344,7 +346,7 @@ audio,video{height:35px}
 		}
 		
 	function 下一本() {
-		书架(saveLB,saveI+1)
+		书架(NovelLB,NovelNum+1)
 		setTimeout(试听, 3000);
 		}
 	
@@ -369,8 +371,8 @@ audio,video{height:35px}
 
 	function 分段(txt) {
 		清屏()
-		var i = NW || 50 ,reg;
-		saveNW = i;
+		var i = WordNum || 50 ,reg;
+		PageWordNum = i;
 		txt = 文字预处理(txt)
 		reg = '“?([^“”]{1,' + i + '}[。！？：；…—\?!;]|[^“”]{1,' + i + '}[，,])”?';
 		reg = new RegExp(reg, 'g');
@@ -563,6 +565,8 @@ audio,video{height:35px}
 	}
 
 	function 请求(url,lb,i) {
+		lb = +lb;
+		i = +i;
 		var kw = url.replace(/^.*\//, ''),
 			istxt = /\.txt/i.test(kw);
 		if (!istxt) {
@@ -576,9 +580,9 @@ audio,video{height:35px}
 			mimeType: 'text/plain;charset=' + Charset,
 			error:1,
 			success: function(txt) {
-				saveURL = url;
-				saveLB = lb;
-				saveI = i;
+				NovelUrl = url;
+				NovelLB = lb;
+				NovelNum = i;
 				BT.innerHTML = kw.replace(/\.txt/i,'');
 				分段(txt)
 			}
@@ -650,7 +654,7 @@ audio,video{height:35px}
 		清屏()
 		BT.innerHTML = '朗读'
 		Charset = 'GBK'
-		NW = Timbre =  null
+		WordNum = Timbre =  null
 		VOL = SPD = PIT = EMO = null
 		进度()
 		}
@@ -686,17 +690,17 @@ audio,video{height:35px}
 				url = Road +'/音乐/听书背景音乐/'+ kw + '.mp3';
 				url = en_URI(url)
 		}
-		BGM = url;
+		Bgm = url;
 		musicPlayer.src = url;
 		musicPlayer.play();
 	}
 	
 	function 背音量() {
-		var v = BGMVL
+		var v = BgmVL
 		v = v == 1 ? 0.25 : v == 0.25 ? 0.5:v == 0.5 ? 0.75:1;
 		musicPlayer.volume = v
 		var bt = v*100 +'%'
-		BGMVL = v
+		BgmVL = v
 		音乐('设定音量: ' + bt)
 	}
 
@@ -746,7 +750,7 @@ audio,video{height:35px}
 		if (lx == '字数限制') {
 			txt = txt.replace(/字/, '');
 			var v = +txt;
-			NW = v;
+			WordNum = v;
 			txt = '';
 			for (var i = 0; i < v; i++) {
 				txt += '字'
@@ -1009,9 +1013,9 @@ audio,video{height:35px}
 	
 	function 音乐音视(ts) {
 		if(ts){
-		mPlayerlx = (mPlayerlx == '音频') ? '视频' : '音频';
+		MusicPlayerLX = (MusicPlayerLX == '音频') ? '视频' : '音频';
 		}
-		if (mPlayerlx == '音频') {
+		if (MusicPlayerLX == '音频') {
 			musicPlayer = AUD3
 		} else {
 			musicPlayer = VID3
@@ -1023,9 +1027,9 @@ audio,video{height:35px}
 	
 	function 音视(ts) {
 		if(ts){
-		Playerlx = (Playerlx == '音频') ? '视频' : '音频';
+		PlayerLX = (PlayerLX == '音频') ? '视频' : '音频';
 		}
-		if (Playerlx == '视频') {
+		if (PlayerLX == '视频') {
 			AUDS.style.display = 'none'
 			VIDS.style.display = ''
 			if (Player == AUD1) {
@@ -1055,7 +1059,7 @@ audio,video{height:35px}
 	}
 	
 	function 切换() {
-		if (Playerlx == '音频') {
+		if (PlayerLX == '音频') {
 			if (Player == AUD1) {
 				Player = AUD2;
 				Player1 = AUD1;
@@ -1125,22 +1129,22 @@ audio,video{height:35px}
 	}
 
 	function 储存() {
-			if(!saveURL)return;
+			if(!NovelUrl)return;
 			var save = {};
-			save.zblx = ZBLX;
-			save.playerlx = Playerlx;
-			save.mplayerlx = mPlayerlx;
-			save.charset = Charset;
-			save.bgm = BGM;
-			save.bgmvl = BGMVL;
-			save.url = saveURL;
-			save.lb = saveLB;
-			save.i = saveI;
-			save.nw = saveNW;
-			save.jd = JDT.value;
+			save.VoiceLX = VoiceLX;
+			save.PlayerLX = PlayerLX;
+			save.MusicPlayerLX = MusicPlayerLX;
+			save.Charset = Charset;
+			save.Bgm = Bgm;
+			save.BgmVL = BgmVL;
+			save.NovelUrl = NovelUrl;
+			save.NovelLB = NovelLB;
+			save.NovelNum = NovelNum;
+			save.PageWordNum = PageWordNum;
+			save.JDTvalue = JDT.value;
 			save.MttsYzm = window.MttsYzm;
-			save.mkYzm = window.mkYzm;
-			save.mkUuid = window.mkUuid;
+			save.MkYzm = window.MkYzm;
+			save.MkUuid = window.MkUuid;
 			save.MsArea = window.MsArea;
 			save.MsToken = window.MsToken;
 			save = json2str(save);
@@ -1150,30 +1154,30 @@ audio,video{height:35px}
 	function 恢复() {
 		var save = localStorage.getItem('bookshelf');
 		save = JSON.parse(save) || {};
-		ZBLX = save.zblx||'默认';
+		VoiceLX = save.VoiceLX||'默认';
 		切换主播()
-		Playerlx = save.playerlx || '音频';
+		PlayerLX = save.PlayerLX || '音频';
 		音视()
-		mPlayerlx = save.mplayerlx || '音频';
+		MusicPlayerLX = save.MusicPlayerLX || '音频';
 		音乐音视()
-		Charset = save.charset || 'GBK';
-		BGM = save.bgm||'file:///sdcard/无方幻我/音乐/听书背景音乐/童年-班得瑞.mp3';
-		BGMVL = save.bgmvl || 0.25;
-		var url = save.url
-		if(!url) return;
-		NW = NW || save.nw
-		saveLB = +save.lb;
-		saveI = +save.i
+		Charset = save.Charset || 'GBK';
+		Bgm = save.Bgm||'file:///sdcard/无方幻我/音乐/听书背景音乐/童年-班得瑞.mp3';
+		BgmVL = save.BgmVL || 0.25;
+		NovelUrl = save.NovelUrl
+		if(!NovelUrl) return;
+		WordNum = WordNum || save.PageWordNum
+		NovelLB = save.NovelLB;
+		NovelNum = save.NovelNum
 		window.MttsYzm = save.MttsYzm
-		window.mkYzm = save.mkYzm;
-		window.mkUuid = save.mkUuid;
+		window.MkYzm = save.MkYzm;
+		window.MkUuid = save.MkUuid;
 		window.MsArea = save.MsArea;
 		window.MsToken = save.MsToken;
-		请求(url,saveLB,saveI)
+		请求(NovelUrl,NovelLB,NovelNum)
 		setTimeout(fn, 1000);
 		function fn() {
 			try {
-				进度(save.jd)
+				进度(save.JDTvalue)
 				setTimeout(章节, 1000);
 			} catch (e) {}
 		}
